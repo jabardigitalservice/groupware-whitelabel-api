@@ -1,2 +1,3 @@
-# groupware-whitelabel-api
-development digiteam apps
+# Groupware Whitelabel API
+
+Development Digiteam Apps
