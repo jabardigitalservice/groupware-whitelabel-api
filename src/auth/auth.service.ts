@@ -179,7 +179,7 @@ export class AuthService {
     if (!userToken)
       throw new NotFoundException('Refresh Token tidak ditemukan');
 
-    this.userTokenRepository.delete(userToken);
+    await this.userTokenRepository.delete(userToken.id);
   };
 
   async getUserInfoFromGoogle(access_token: string) {
