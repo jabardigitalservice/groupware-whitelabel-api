@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configValidationSchema } from './config.schema';
 import { DatabaseConnection } from './config/database-connection.config';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DatabaseConnection } from './config/database-connection.config';
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConnection,
     }),
+    ProjectsModule,
   ],
 })
 export class AppModule {}
