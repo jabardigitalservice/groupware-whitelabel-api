@@ -1,5 +1,5 @@
-import { UserProfile } from 'src/user-profiles/user-profile.entity';
-import { User } from 'src/users/entities/user.entity';
+import { UserProfile } from '../../user-profiles/user-profile.entity';
+import { User } from '../../users/entities/user.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
 import { createQueryBuilder } from 'typeorm';
 

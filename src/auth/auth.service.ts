@@ -16,7 +16,7 @@ import { google, Auth } from 'googleapis';
 import { GoogleAuthenticateDto } from './dto/google-authenticate.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { UserTokenRepository } from '../users/repositories/user-token.repository';
-import { UserToken } from 'src/users/entities/user-token.entity';
+import { UserToken } from '../users/entities/user-token.entity';
 
 @Injectable()
 export class AuthService {

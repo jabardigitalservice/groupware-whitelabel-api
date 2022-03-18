@@ -1,9 +1,9 @@
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { define } from 'typeorm-seeding';
 import { faker } from '@faker-js/faker';
 import { nanoid } from 'nanoid';
-import { UserProfile } from 'src/user-profiles/user-profile.entity';
-import { UserSocialAccount } from 'src/user-social-accounts/user-social-account.entity';
+import { UserProfile } from '../../user-profiles/user-profile.entity';
+import { UserSocialAccount } from '../../user-social-accounts/user-social-account.entity';
 
 define(User, () => {
   const user = new User();

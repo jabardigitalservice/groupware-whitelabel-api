@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { GoogleAuthenticateDto } from './dto/google-authenticate.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
