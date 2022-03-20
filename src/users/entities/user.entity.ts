@@ -13,7 +13,7 @@ import { UserProfile } from '../../user-profiles/user-profile.entity';
 import { UserSocialAccount } from '../../user-social-accounts/user-social-account.entity';
 import { UserToken } from './user-token.entity';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   public id: string;

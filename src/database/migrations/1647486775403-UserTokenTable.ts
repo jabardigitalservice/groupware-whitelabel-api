@@ -6,8 +6,8 @@ import {
 } from 'typeorm';
 
 export class UserToken1647486775403 implements MigrationInterface {
-  private tableName = 'user_token';
-  private userTableName = 'user';
+  private tableName = 'user_tokens';
+  private userTableName = 'users';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(

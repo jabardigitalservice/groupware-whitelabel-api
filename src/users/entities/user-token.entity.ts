@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity()
+@Entity('user_tokens')
 export class UserToken {
   @PrimaryGeneratedColumn('uuid')
   public id: string;

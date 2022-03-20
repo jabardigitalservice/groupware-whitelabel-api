@@ -6,9 +6,8 @@ import {
 } from 'typeorm';
 
 export class UserProfileTable1647216750779 implements MigrationInterface {
-  private tableName = 'user_profile';
-  private userTableName = 'user';
-  private institutionTableName = 'institution';
+  private tableName = 'user_profiles';
+  private userTableName = 'users';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(

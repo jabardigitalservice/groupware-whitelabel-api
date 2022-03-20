@@ -6,8 +6,8 @@ import {
 } from 'typeorm';
 
 export class UserSocialAccountTable1647216765506 implements MigrationInterface {
-  private tableName = 'user_social_account';
-  private userTableName = 'user';
+  private tableName = 'user_social_accounts';
+  private userTableName = 'users';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
