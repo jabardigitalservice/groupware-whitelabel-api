@@ -10,8 +10,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       clientID: configService.get('GOOGLE_CLIENT_ID'),
       clientSecret: configService.get('GOOGLE_CLIENT_SECRET'),
       callbackURL: configService.get('GOOGLE_CALLBACK_URL'),
-      scope: ['profile', 'email'],
-      userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
+      scope: configService.get('GOOGLE_SCOPE').split(','),
+      userProfileURL: configService.get('GOOGLE_USER_PROFILE_URL'),
     });
   }
 

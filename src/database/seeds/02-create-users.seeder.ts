@@ -7,9 +7,9 @@ export default class CreateUsers implements Seeder {
     const userRepository = getRepository(User);
 
     const user = new User();
-    user.name = 'Groupware Whitelabel Admin';
-    user.email = 'groupware.whitelabel@gmail.com';
-    user.password = '123456';
+    user.name = process.env.DEFAULT_ADMIN_NAME;
+    user.email = process.env.DEFAULT_ADMIN_EMAIL;
+    user.password = process.env.DEFAULT_PASSWORD;
     user.isActive = true;
     await userRepository.save(user);
 

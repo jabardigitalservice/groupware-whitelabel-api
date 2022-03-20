@@ -7,7 +7,7 @@ export default class CreateUserProfiles implements Seeder {
   public async run(factory: Factory): Promise<any> {
     const users = await createQueryBuilder()
       .select('id')
-      .from(User, 'user')
+      .from(User, 'users')
       .execute();
 
     for (const user of users) {

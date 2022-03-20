@@ -3,11 +3,16 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
+  TableUnique,
 } from 'typeorm';
 
 export class UserSocialAccountTable1647216765506 implements MigrationInterface {
   private tableName = 'user_social_accounts';
   private userTableName = 'users';
+
+  private userSocialAccountUniqueConstraint = new TableUnique({
+    columnNames: ['provider_identifier', 'provider_name'],
+  });
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -32,14 +37,12 @@ export class UserSocialAccountTable1647216765506 implements MigrationInterface {
             type: 'varchar',
             length: '192',
             isNullable: false,
-            isUnique: true,
           },
           {
             name: 'provider_name',
             type: 'varchar',
             length: '192',
             isNullable: false,
-            isUnique: true,
           },
           {
             name: 'created_at',
@@ -56,6 +59,11 @@ export class UserSocialAccountTable1647216765506 implements MigrationInterface {
           },
         ],
       }),
+    );
+
+    await queryRunner.createUniqueConstraint(
+      this.tableName,
+      this.userSocialAccountUniqueConstraint,
     );
 
     await queryRunner.createForeignKey(

@@ -10,7 +10,7 @@ define(User, () => {
 
   user.name = faker.name.findName();
   user.email = nanoid() + faker.internet.email();
-  user.password = '123456';
+  user.password = process.env.DEFAULT_PASSWORD;
   user.isActive = Boolean(Math.floor(Math.random() * 2));
 
   return user;
@@ -34,8 +34,5 @@ define(UserProfile, () => {
 
 define(UserSocialAccount, () => {
   const userSocialAccount = new UserSocialAccount();
-
-  userSocialAccount.providerIdentifier = nanoid();
-
   return userSocialAccount;
 });
