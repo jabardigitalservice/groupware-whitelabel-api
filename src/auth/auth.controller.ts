@@ -14,6 +14,7 @@ import { GoogleAuthenticateDto } from './dto/google-authenticate.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { GetUser } from './get-user.decorator';
+import lang from '../language/configuration';
 
 @Controller('v1/auth/users')
 export class AuthController {
@@ -25,7 +26,7 @@ export class AuthController {
 
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      message: 'Melakukan sign in berhasil dilakukan',
+      message: lang.__('auth.signin.success'),
       data,
     });
   }
@@ -41,7 +42,7 @@ export class AuthController {
 
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      message: 'Melakukan sign in berhasil dilakukan',
+      message: lang.__('auth.signin.success'),
       data,
     });
   }
@@ -53,7 +54,7 @@ export class AuthController {
 
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      message: 'Memuat data diri berhasil dilakukan',
+      message: lang.__('auth.me.success'),
       data,
     });
   }
@@ -67,7 +68,7 @@ export class AuthController {
 
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      message: 'Melakukan pembaruan token berhasil dilakukan',
+      message: lang.__('auth.refreshToken.success'),
       data,
     });
   }
@@ -82,7 +83,7 @@ export class AuthController {
 
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      message: 'Melakukan sign out berhasil dilakukan',
+      message: lang.__('auth.signout.success'),
       data,
     });
   }

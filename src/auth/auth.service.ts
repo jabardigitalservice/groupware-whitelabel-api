@@ -17,6 +17,7 @@ import { GoogleAuthenticateDto } from './dto/google-authenticate.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { UserTokenRepository } from '../users/repositories/user-token.repository';
 import { UserToken } from '../users/entities/user-token.entity';
+import lang from '../language/configuration';
 
 @Injectable()
 export class AuthService {
@@ -40,19 +41,19 @@ export class AuthService {
     const { email, password } = signInDto;
 
     const user = await this.authRepository.findByEmail(email);
-    if (!user)
-      throw new UnauthorizedException('Email dan Kata Sandi tidak ditemukan');
+    if (!user) throw new UnauthorizedException(lang.__('auth.signin.failed'));
 
     if (Boolean(password)) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch)
-        throw new UnauthorizedException('Email dan Kata Sandi tidak ditemukan');
+        throw new UnauthorizedException(lang.__('auth.signin.failed'));
     }
 
-    if (!user.isActive) throw new UnauthorizedException('Akun tidak aktif');
+    if (!user.isActive)
+      throw new UnauthorizedException(lang.__('auth.active.failed'));
 
     if (user.deletedAt)
-      throw new UnauthorizedException('Email dan Kata Sandi tidak ditemukan');
+      throw new UnauthorizedException(lang.__('auth.signin.failed'));
 
     const responseJwt = await this.generateJwtToken(user.id);
     const decodeRefreshToken = await this.decodeJwtToken(
@@ -67,7 +68,7 @@ export class AuthService {
 
       await this.userTokenRepository.save(userToken);
     } catch (error) {
-      throw new InternalServerErrorException('Terdapat kesalahan di server');
+      throw new InternalServerErrorException(lang.__('internal.server.error'));
     }
 
     return responseJwt;
@@ -80,17 +81,18 @@ export class AuthService {
     const userInfo = await this.getUserInfoFromGoogle(access_token);
 
     if (!userInfo) {
-      throw new UnauthorizedException(
-        'Login dengan Google gagal, silahkan coba lagi',
-      );
+      throw new UnauthorizedException(lang.__('auth.token.not.valid'));
     }
 
     const user = await this.authRepository.findByEmail(userInfo.email);
-    if (!user) throw new UnauthorizedException('Akun tidak ditemukan');
+    if (!user)
+      throw new UnauthorizedException(lang.__('auth.signin.google.not.found'));
 
-    if (!user.isActive) throw new UnauthorizedException('Akun tidak aktif');
+    if (!user.isActive)
+      throw new UnauthorizedException(lang.__('auth.active.failed'));
 
-    if (user.deletedAt) throw new UnauthorizedException('Akun tidak ditemukan');
+    if (user.deletedAt)
+      throw new UnauthorizedException(lang.__('auth.signin.google.not.found'));
 
     const responseJwt = await this.generateJwtToken(user.id);
     const decodeRefreshToken = await this.decodeJwtToken(
@@ -105,7 +107,7 @@ export class AuthService {
 
       await this.userTokenRepository.save(userToken);
     } catch (error) {
-      throw new InternalServerErrorException('Terdapat kesalahan di server');
+      throw new InternalServerErrorException(lang.__('internal.server.error'));
     }
 
     return responseJwt;
@@ -128,27 +130,19 @@ export class AuthService {
     const payload = await this.verifyRefreshToken(refreshTokenDto);
 
     if (!payload)
-      throw new UnauthorizedException(
-        'Melakukan pembaruan token gagal dilakukan',
-      );
+      throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
 
     const decodeOldRefreshToken = await this.decodeJwtToken(refresh_token);
 
     const user = await this.authRepository.findOne(payload.identifier);
     if (!user)
-      throw new UnauthorizedException(
-        'Melakukan pembaruan token gagal dilakukan',
-      );
+      throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
 
     if (!user.isActive)
-      throw new UnauthorizedException(
-        'Melakukan pembaruan token gagal dilakukan',
-      );
+      throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
 
     if (user.deletedAt)
-      throw new UnauthorizedException(
-        'Melakukan pembaruan token gagal dilakukan',
-      );
+      throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
 
     const responseJwt = await this.generateJwtToken(
       decodeOldRefreshToken.identifier,
@@ -164,7 +158,7 @@ export class AuthService {
         expiredTime: decodeNewRefreshToken.exp,
       });
     } catch (error) {
-      throw new InternalServerErrorException('Terdapat kesalahan di server');
+      throw new InternalServerErrorException(lang.__('internal.server.error'));
     }
 
     return responseJwt;
@@ -177,7 +171,7 @@ export class AuthService {
     });
 
     if (!userToken)
-      throw new NotFoundException('Refresh Token tidak ditemukan');
+      throw new NotFoundException(lang.__('auth.token.not.valid'));
 
     await this.userTokenRepository.delete(userToken.id);
   };
@@ -197,9 +191,7 @@ export class AuthService {
       if (!userInfoResponse.data) return null;
       return userInfoResponse.data;
     } catch (error) {
-      throw new UnauthorizedException(
-        'Login dengan Google gagal, silahkan coba lagi',
-      );
+      throw new UnauthorizedException(lang.__('auth.token.not.valid'));
     }
   }
 
@@ -217,11 +209,11 @@ export class AuthService {
       });
 
       if (!userRefreshToken)
-        throw new UnauthorizedException('Refresh Token tidak valid');
+        throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
 
       return payload;
     } catch (error) {
-      throw new UnauthorizedException('Refresh token tidak valid');
+      throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
     }
   }
 
@@ -267,7 +259,7 @@ export class AuthService {
     try {
       return this.jwtService.decode(token);
     } catch (error) {
-      throw new UnauthorizedException('Token tidak valid');
+      throw new UnauthorizedException(lang.__('auth.token.not.failed'));
     }
   }
 }
