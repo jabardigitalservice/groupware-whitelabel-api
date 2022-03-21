@@ -15,7 +15,11 @@ export class UserRepository extends Repository<User> {
     const { name } = getUsersFilterDto;
 
     const query = this.createQueryBuilder('user')
-      .select(['user.id', 'user.name', 'userProfile.avatar AS avatar'])
+      .select([
+        'user.id AS id',
+        'user.name AS name',
+        'userProfile.avatar AS avatar',
+      ])
       .innerJoin('user.userProfile', 'userProfile')
       .where('user.deleted_at IS NULL')
       .orderBy('user.name', 'ASC');
