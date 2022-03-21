@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configValidationSchema } from './config.schema';
+import { ProjectsModule } from './projects/projects.module';
 import { DatabaseConnection } from './config/database/connection';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
@@ -18,6 +19,7 @@ import { UserSocialAccountModule } from './user-social-accounts/user-social-acco
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConnection,
     }),
+    ProjectsModule,
     AuthModule,
     UserModule,
     UserProfileModule,
