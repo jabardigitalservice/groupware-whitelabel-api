@@ -6,6 +6,7 @@ import {
   Post,
   Res,
   UseGuards,
+  Version,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../users/entities/user.entity';
@@ -16,10 +17,11 @@ import { SignInDto } from './dto/sign-in.dto';
 import { GetUser } from './get-user.decorator';
 import lang from '../language/configuration';
 
-@Controller('v1/auth/users')
+@Controller('/auth/users')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Version('1')
   @Post('/sign-in')
   async signIn(@Body() signInDto: SignInDto, @Res() response): Promise<any> {
     const data = await this.authService.signIn(signInDto);
@@ -31,6 +33,7 @@ export class AuthController {
     });
   }
 
+  @Version('1')
   @Post('/google/authenticate')
   async authenticate(
     @Body() googleAuthenticateDto: GoogleAuthenticateDto,
@@ -47,6 +50,7 @@ export class AuthController {
     });
   }
 
+  @Version('1')
   @Get('/me')
   @UseGuards(AuthGuard())
   async me(@GetUser() user: User, @Res() response): Promise<void> {
@@ -59,6 +63,7 @@ export class AuthController {
     });
   }
 
+  @Version('1')
   @Post('/refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
@@ -73,6 +78,7 @@ export class AuthController {
     });
   }
 
+  @Version('1')
   @Post('/sign-out')
   @UseGuards(AuthGuard())
   async signOut(
