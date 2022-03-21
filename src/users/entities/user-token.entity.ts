@@ -5,8 +5,9 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
+  ManyToOne,
 } from 'typeorm';
+import { Token } from '../token.enum';
 import { User } from './user.entity';
 
 @Entity('user_tokens')
@@ -14,17 +15,25 @@ export class UserToken {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @OneToOne(() => User, (user) => user.userToken)
+  @ManyToOne(() => User, (user) => user.userToken)
   @JoinColumn({ name: 'user_id' })
   public user!: User;
 
   @Column({
     type: 'varchar',
-    name: 'refresh_token',
+    name: 'token',
     length: 255,
     nullable: false,
   })
-  public refreshToken: string;
+  public token: string;
+
+  @Column('enum', {
+    enum: Token,
+    name: 'token_type',
+    default: Token.REFRESH,
+    nullable: false,
+  })
+  public tokenType: Token;
 
   @Column({
     type: 'int',

@@ -64,6 +64,6 @@ export class User {
   )
   public userSocialAccounts: UserSocialAccount[];
 
-  @OneToOne(() => UserToken, (userToken) => userToken.user)
+  @OneToMany(() => UserToken, (userToken) => userToken.user)
   public userToken: UserToken;
 }

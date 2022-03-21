@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { UpdateRefreshTokenDto } from '../dto/update-refresh-token.dto';
 import { UserToken } from '../entities/user-token.entity';
+import { Token } from '../token.enum';
 
 @EntityRepository(UserToken)
 export class UserTokenRepository extends Repository<UserToken> {
@@ -10,8 +11,8 @@ export class UserTokenRepository extends Repository<UserToken> {
   ): Promise<void> {
     const { refreshToken, expiredTime } = updateRefreshTokenDto;
     await this.update(
-      { refreshToken: oldRefreshToken },
-      { refreshToken, expiredTime },
+      { token: oldRefreshToken, tokenType: Token.REFRESH },
+      { token: refreshToken, tokenType: Token.REFRESH, expiredTime },
     );
   }
 }

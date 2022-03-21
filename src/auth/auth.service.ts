@@ -18,6 +18,7 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { UserTokenRepository } from '../users/repositories/user-token.repository';
 import { UserToken } from '../users/entities/user-token.entity';
 import lang from '../language/configuration';
+import { Token } from 'src/users/token.enum';
 
 @Injectable()
 export class AuthService {
@@ -63,7 +64,8 @@ export class AuthService {
     try {
       const userToken = new UserToken();
       userToken.user = user;
-      userToken.refreshToken = responseJwt.refresh_token;
+      userToken.token = responseJwt.refresh_token;
+      userToken.tokenType = Token.REFRESH;
       userToken.expiredTime = decodeRefreshToken.exp;
 
       await this.userTokenRepository.save(userToken);
@@ -102,7 +104,8 @@ export class AuthService {
     try {
       const userToken = new UserToken();
       userToken.user = user;
-      userToken.refreshToken = responseJwt.refresh_token;
+      userToken.token = responseJwt.refresh_token;
+      userToken.tokenType = Token.REFRESH;
       userToken.expiredTime = decodeRefreshToken.exp;
 
       await this.userTokenRepository.save(userToken);
@@ -167,7 +170,8 @@ export class AuthService {
   signOut = async (refreshTokenDto: RefreshTokenDto): Promise<void> => {
     const { refresh_token } = refreshTokenDto;
     const userToken = await this.userTokenRepository.findOne({
-      refreshToken: refresh_token,
+      token: refresh_token,
+      tokenType: Token.REFRESH,
     });
 
     if (!userToken)
@@ -205,7 +209,8 @@ export class AuthService {
       });
 
       const userRefreshToken = await this.userTokenRepository.findOne({
-        refreshToken: refresh_token,
+        token: refresh_token,
+        tokenType: Token.REFRESH,
       });
 
       if (!userRefreshToken)

@@ -29,20 +29,20 @@ export class Project1647529902538 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'timestamp without time zone',
             default: 'CURRENT_TIMESTAMP(6)',
             isNullable: false,
           },
           {
             name: 'updated_at',
-            type: 'timestamp',
+            type: 'timestamp without time zone',
             default: 'CURRENT_TIMESTAMP(6)',
             onUpdate: 'CURRENT_TIMESTAMP(6)',
             isNullable: false,
           },
           {
             name: 'deleted_at',
-            type: 'timestamp',
+            type: 'timestamp without time zone',
             default: 'null',
             isNullable: true,
           },
