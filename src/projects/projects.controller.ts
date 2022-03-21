@@ -1,11 +1,20 @@
-import { Controller, Get, HttpStatus, Query, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Query,
+  Res,
+  Version,
+} from '@nestjs/common';
 import { GetProjectsFilterDto } from './dto/get-projects-filter.dto';
 import { ProjectsService } from './projects.service';
+import lang from '../language/configuration';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private projectsService: ProjectsService) {}
 
+  @Version('1')
   @Get()
   async getProjects(
     @Query() getProjectsFilterDto: GetProjectsFilterDto,
@@ -17,7 +26,7 @@ export class ProjectsController {
 
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      message: 'Berhasil mendapatkan list project',
+      message: lang.__('projects.getAll.success'),
       data: projects,
     });
   }
