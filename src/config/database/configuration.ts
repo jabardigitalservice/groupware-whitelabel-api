@@ -18,6 +18,7 @@ const DatabaseConfig: ConnectionOptions & {
   extra: {
     ssl: isProduction ? { rejectUnauthorized: false } : null,
   },
+  logging: !isProduction,
   synchronize: false,
   entities: ['dist/**/*.entity.{js,ts}'],
   migrations: [__dirname + '/../../database/migrations/*.{js,ts}'],
