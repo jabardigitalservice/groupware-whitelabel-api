@@ -1,0 +1,13 @@
+{
+	"auth.signin.success": "Melakukan sign in berhasil dilakukan.",
+	"auth.signin.failed": "Email atau Kata Sandi tidak ditemukan.",
+	"auth.active.failed": "Akun sedang tidak aktif.",
+	"auth.signin.google.not.found": "Akun tidak ditemukan.",
+	"auth.me.success": "Memuat data diri berhasil dilakukan.",
+	"auth.refreshToken.success": "Melakukan pembaruan token berhasil dilakukan.",
+	"auth.refreshToken.failed": "Refresh token tidak aktif.",
+	"auth.token.not.valid": "Token tidak valid.",
+	"auth.signout.success": "Melakukan sign out berhasil dilakukan.",
+
+	"internal.server.error": "Terdapat kesalahan di server."
+}

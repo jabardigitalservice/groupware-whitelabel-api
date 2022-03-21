@@ -2,12 +2,13 @@ import 'dotenv/config';
 import { ConnectionOptions } from 'typeorm';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const dbConnection: any = process.env.DB_CONNECTION;
 
 const DatabaseConfig: ConnectionOptions & {
   seeds: string[];
   factories: string[];
 } = {
-  type: 'postgres',
+  type: dbConnection,
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
   username: process.env.DB_USERNAME,

@@ -17,4 +17,7 @@ export const configValidationSchema = Joi.object({
   JWT_REFRESH_TOKEN_EXPIRES_IN: Joi.string().required(),
   GOOGLE_CLIENT_ID: Joi.string().required(),
   GOOGLE_CLIENT_SECRET: Joi.string().required(),
+  DEFAULT_ADMIN_NAME: Joi.string().required(),
+  DEFAULT_ADMIN_EMAIL: Joi.string().required(),
+  DEFAULT_PASSWORD: Joi.string().required(),
 });
