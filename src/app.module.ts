@@ -3,8 +3,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configValidationSchema } from './config.schema';
-import { DatabaseConnection } from './config/database-connection.config';
 import { ProjectsModule } from './projects/projects.module';
+import { DatabaseConnection } from './config/database/connection';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './users/users.module';
+import { UserProfileModule } from './user-profiles/user-profiles.module';
+import { UserSocialAccountModule } from './user-social-accounts/user-social-accounts.module';
 
 @Module({
   imports: [
@@ -16,6 +20,10 @@ import { ProjectsModule } from './projects/projects.module';
       useClass: DatabaseConnection,
     }),
     ProjectsModule,
+    AuthModule,
+    UserModule,
+    UserProfileModule,
+    UserSocialAccountModule,
   ],
 })
 export class AppModule {}

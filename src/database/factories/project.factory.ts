@@ -1,9 +1,9 @@
 import { define } from 'typeorm-seeding';
 import { faker } from '@faker-js/faker';
-import { Project } from 'src/projects/projects.entity';
+import { Projects } from 'src/projects/projects.entity';
 
-define(Project, () => {
-  const project = new Project();
+define(Projects, () => {
+  const project = new Projects();
 
   project.name = faker.name.jobArea();
 

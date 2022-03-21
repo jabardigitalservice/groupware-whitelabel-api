@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GetProjectsFilterDto } from './dto/get-projects-filter.dto';
-import { Project } from './projects.entity';
+import { Projects } from './projects.entity';
 import { ProjectsRepository } from './projects.repository';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class ProjectsService {
     private projectsRepository: ProjectsRepository,
   ) {}
 
-  getProjects(getProjectsFilterDto: GetProjectsFilterDto): Promise<Project[]> {
+  getProjects(getProjectsFilterDto: GetProjectsFilterDto): Promise<Projects[]> {
     return this.projectsRepository.getProjects(getProjectsFilterDto);
   }
 }

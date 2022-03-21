@@ -1,10 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { GetProjectsFilterDto } from './dto/get-projects-filter.dto';
-import { Project } from './projects.entity';
+import { Projects } from './projects.entity';
 
-@EntityRepository(Project)
-export class ProjectsRepository extends Repository<Project> {
-  getProjects(getProjectsFilterDto: GetProjectsFilterDto): Promise<Project[]> {
+@EntityRepository(Projects)
+export class ProjectsRepository extends Repository<Projects> {
+  getProjects(getProjectsFilterDto: GetProjectsFilterDto): Promise<Projects[]> {
     const { name } = getProjectsFilterDto;
 
     const query = this.createQueryBuilder('project')
