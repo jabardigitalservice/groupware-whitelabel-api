@@ -12,6 +12,7 @@
 	"attendances.date.error": "Tanggal dan waktu tidak valid.",
 	"attendances.checkin.success": "Checkin berhasil dilakukan.",
 	"attendances.already.checked.in.for.today": "Anda sudah melakukan checkin untuk hari ini.",
+	"attendances.not.today": "Anda tidak dapat melakukan checkin untuk bukan hari ini.",
 	"attendances.checkout.success": "Checkout berhasil dilakukan.",
 	"attendances.not.found": "Anda belum melakukan checkin untuk hari ini.",
 	"attendances.checkout.end.time.before.start.time.error": "Waktu checkout tidak boleh lebih awal dari waktu checkin",

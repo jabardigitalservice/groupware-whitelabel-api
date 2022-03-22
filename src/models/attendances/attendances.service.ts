@@ -26,14 +26,18 @@ export class AttendancesService {
   ) {}
 
   async checkIn(user: User, checkInDto: CheckInDto): Promise<Attendance> {
-    const attendanceToday = await this.isCheckedIn(user);
+    const { date, location, mood, note } = checkInDto;
 
+    const isTodayAttendance = await this.isTodayAttendance(date);
+    if (!isTodayAttendance)
+      throw new ForbiddenException(lang.__('attendances.not.today'));
+
+    const attendanceToday = await this.isCheckedIn(user);
     if (attendanceToday.isCheckedIn)
       throw new ForbiddenException(
         lang.__('attendances.already.checked.in.for.today'),
       );
 
-    const { date, location, mood, note } = checkInDto;
     const attendance = new Attendance();
 
     attendance.startDate = new Date(date);
@@ -68,6 +72,12 @@ export class AttendancesService {
 
     await this.attendancesRepository.save(attendance);
     return attendance;
+  }
+
+  async isTodayAttendance(date: Date): Promise<boolean> {
+    return (
+      new Date(date).toDateString() === new Date(currentDate).toDateString()
+    );
   }
 
   async calculateOfficeHours(

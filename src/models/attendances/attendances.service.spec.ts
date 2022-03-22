@@ -71,7 +71,21 @@ describe('AttendancesService', () => {
   });
 
   describe('checkIn', () => {
-    it('shoule throw error if user is already checked in', async () => {
+    it('should throw error if checkin not today', async () => {
+      const date = new Date();
+      date.setDate(date.getDate() - 1);
+
+      await expect(
+        attendancesService.checkIn(mockUser, {
+          date,
+          location: 'someLocation',
+          mood: Mood.EXCELLENT,
+          note: 'someNote',
+        }),
+      ).rejects.toThrowError();
+    });
+
+    it('should throw error if user is already checked in', async () => {
       await attendancesRepository.isCheckedIn.mockResolvedValue(true);
 
       await expect(
@@ -157,6 +171,24 @@ describe('AttendancesService', () => {
       expect(attendance.user).toHaveProperty('id');
     });
   });
+
+  describe('isTodayAttendance', () => {
+    it('should return true if attendance is today', async () => {
+      const date = new Date();
+
+      const result = await attendancesService.isTodayAttendance(date);
+      expect(result).toBe(true);
+    });
+
+    it('should return false if attendance is not today', async () => {
+      const date = new Date();
+      date.setDate(date.getDate() - 1);
+
+      const result = await attendancesService.isTodayAttendance(date);
+      expect(result).toBe(false);
+    });
+  });
+
   describe('calculateOfficeHours', () => {
     it('should calculate office hours', async () => {
       const attendance = {
