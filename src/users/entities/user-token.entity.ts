@@ -5,7 +5,7 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -14,7 +14,7 @@ export class UserToken {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @OneToOne(() => User, (user) => user.userToken)
+  @ManyToOne(() => User, (user) => user.userTokens)
   @JoinColumn({ name: 'user_id' })
   public user!: User;
 
