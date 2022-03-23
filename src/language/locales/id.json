@@ -22,5 +22,7 @@
 	
 	"internal.server.error": "Terdapat kesalahan di server.",
 
-	"projects.getAll.success": "Berhasil mendapatkan list project."
+	"projects.getAll.success": "Berhasil mendapatkan list project.",
+	
+	"users.getAll.success": "Berhasil mendapatkan list user."
 }
