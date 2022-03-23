@@ -19,14 +19,14 @@ export class Attendance {
   public user!: User;
 
   @Column({
-    type: 'timestamp without time zone',
+    type: 'timestamp',
     name: 'start_date',
     nullable: false,
   })
   startDate: Date;
 
   @Column({
-    type: 'timestamp without time zone',
+    type: 'timestamp',
     name: 'end_date',
     nullable: true,
   })
@@ -63,14 +63,14 @@ export class Attendance {
   note: string;
 
   @CreateDateColumn({
-    type: 'timestamp without time zone',
+    type: 'timestamp',
     name: 'created_at',
     nullable: false,
   })
   public createdAt: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp without time zone',
+    type: 'timestamp',
     name: 'updated_at',
     nullable: false,
     onUpdate: 'CURRENT_TIMESTAMP(6)',

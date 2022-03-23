@@ -29,13 +29,13 @@ export class Attendances1647869718495 implements MigrationInterface {
           },
           {
             name: 'start_date',
-            type: 'timestamp without time zone',
+            type: 'timestamp',
             isNullable: false,
           },
 
           {
             name: 'end_date',
-            type: 'timestamp without time zone',
+            type: 'timestamp',
             isNullable: true,
           },
           {
@@ -62,13 +62,13 @@ export class Attendances1647869718495 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp without time zone',
+            type: 'timestamp',
             default: 'CURRENT_TIMESTAMP(6)',
             isNullable: false,
           },
           {
             name: 'updated_at',
-            type: 'timestamp without time zone',
+            type: 'timestamp',
             default: 'CURRENT_TIMESTAMP(6)',
             onUpdate: 'CURRENT_TIMESTAMP(6)',
             isNullable: false,

@@ -5,7 +5,6 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { currentDate, currentDateTime } from '../../common/helpers/date.helper';
 import lang from '../../language/configuration';
 import { User } from '../../users/entities/user.entity';
 import { AttendancesRepository } from './attendances.repository';
@@ -17,6 +16,7 @@ import {
   ResponseIsCheckedIn,
   ResponseIsCheckedOut,
 } from './interfaces/attendance.interface';
+import * as moment from 'moment';
 
 @Injectable()
 export class AttendancesService {
@@ -40,7 +40,7 @@ export class AttendancesService {
 
     const attendance = new Attendance();
 
-    attendance.startDate = new Date(date);
+    attendance.startDate = moment.utc(date).toDate();
     attendance.location = location;
     attendance.mood = mood;
     attendance.note = note;
@@ -52,6 +52,8 @@ export class AttendancesService {
 
   async checkOut(user: User, checkOutDto: CheckOutDto): Promise<Attendance> {
     const { date } = checkOutDto;
+    const currentDate = moment.utc().format('YYYY-MM-DD');
+    const currentDateTime = moment.utc().toDate();
 
     const attendance = await this.attendancesRepository.findByUserAndToday(
       user,
@@ -66,18 +68,17 @@ export class AttendancesService {
         lang.__('attendances.already.checked.out.for.today'),
       );
 
-    attendance.endDate = new Date(date);
+    attendance.endDate = moment.utc(date).toDate();
     attendance.officeHours = await this.calculateOfficeHours(attendance);
-    attendance.updatedAt = new Date(currentDateTime);
+    attendance.updatedAt = currentDateTime;
 
     await this.attendancesRepository.save(attendance);
     return attendance;
   }
 
   async isTodayAttendance(date: Date): Promise<boolean> {
-    return (
-      new Date(date).toDateString() === new Date(currentDate).toDateString()
-    );
+    const currentDate = moment.utc().format('YYYY-MM-DD');
+    return moment.utc(date).format('YYYY-MM-DD') === currentDate;
   }
 
   async calculateOfficeHours(
@@ -101,6 +102,7 @@ export class AttendancesService {
   }
 
   async isCheckedIn(user: User): Promise<ResponseIsCheckedIn> {
+    const currentDate = moment.utc().format('YYYY-MM-DD');
     const isCheckedIn = await this.attendancesRepository.isCheckedIn(
       user,
       currentDate,
@@ -115,6 +117,7 @@ export class AttendancesService {
   }
 
   async isCheckedOut(user: User): Promise<ResponseIsCheckedOut> {
+    const currentDate = moment.utc().format('YYYY-MM-DD');
     const isCheckedOut = await this.attendancesRepository.isCheckedOut(
       user,
       currentDate,
