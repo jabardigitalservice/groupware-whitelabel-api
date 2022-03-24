@@ -1,4 +1,3 @@
-import { InternalServerErrorException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { GetUsersFilterDto } from '../dto/get-users-filter.dto';
 import { User } from '../entities/user.entity';

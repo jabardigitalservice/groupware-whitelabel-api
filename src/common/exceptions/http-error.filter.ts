@@ -51,10 +51,11 @@ export class HttpErrorFilter implements ExceptionFilter {
 
     this.logger.error(errorLog);
 
+    const environmentMode = this.configService.get('NODE_ENV');
     response
       .status(statusCode)
       .json(
-        this.configService.get('NODE_ENV') === 'dev'
+        environmentMode === 'dev' || environmentMode === 'development'
           ? developmentErrorResponse
           : this.getProductionErrorResponse(statusCode, errorMessage),
       );
