@@ -12,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { UserProfile } from '../../user-profiles/user-profile.entity';
 import { UserSocialAccount } from '../../user-social-accounts/user-social-account.entity';
 import { UserToken } from './user-token.entity';
+import { Attendance } from '../../models/attendances/entities/attendance.entity';
 
 @Entity('users')
 export class User {
@@ -64,6 +65,9 @@ export class User {
   )
   public userSocialAccounts: UserSocialAccount[];
 
-  @OneToOne(() => UserToken, (userToken) => userToken.user)
-  public userToken: UserToken;
+  @OneToMany(() => UserToken, (userToken) => userToken.user)
+  public userTokens: UserToken[];
+
+  @OneToMany(() => Attendance, (attendance) => attendance.user)
+  public attendances: Attendance[];
 }
