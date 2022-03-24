@@ -13,6 +13,7 @@ import {
   DevelopmentErrorResponse,
   HttpExceptionResponse,
 } from '../interfaces/http-exception-response.interface';
+import Sentry from '../../providers/logging/sentry/sentry.module';
 
 @Catch()
 export class HttpErrorFilter implements ExceptionFilter {
@@ -52,6 +53,20 @@ export class HttpErrorFilter implements ExceptionFilter {
 
     this.logger.error(errorLog);
 
+    if (
+      statusCode === HttpStatus.UNPROCESSABLE_ENTITY ||
+      statusCode >= HttpStatus.INTERNAL_SERVER_ERROR
+    ) {
+      Sentry.captureException(exception, {
+        tags: {
+          level: 'error',
+          userAgent: request.headers['user-agent'],
+          ...developmentErrorResponse,
+        },
+        user: request.user,
+      });
+    }
+
     const environmentMode = this.configService.get('NODE_ENV');
     response
       .status(statusCode)
@@ -71,7 +86,7 @@ export class HttpErrorFilter implements ExceptionFilter {
     error: errorMessage,
     path: request.url,
     method: request.method,
-    timeStamp: new Date(),
+    timeStamp: new Date().toString(),
   });
 
   private getProductionErrorResponse = (
