@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response, Request } from 'express';
+import lang from 'src/language/configuration';
 import {
   DevelopmentErrorResponse,
   HttpExceptionResponse,
@@ -34,7 +35,7 @@ export class HttpErrorFilter implements ExceptionFilter {
         (errorResponse as HttpExceptionResponse).error || exception.message;
     } else {
       statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-      errorMessage = 'Internal server error occurred!!';
+      errorMessage = lang.__('common.error.internalServerError');
     }
 
     const developmentErrorResponse = this.getDevelopmentErrorResponse(

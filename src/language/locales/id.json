@@ -20,9 +20,9 @@
 	"attendances.is.checked.in.success": "Memuat status checkin berhasil dilakukan.",
 	"attendances.is.checked.out.success": "Memuat status checkout berhasil dilakukan.",
 	
-	"internal.server.error": "Terdapat kesalahan di server.",
-
 	"projects.getAll.success": "Berhasil mendapatkan list project.",
 	
-	"users.getAll.success": "Berhasil mendapatkan list user."
+	"users.getAll.success": "Berhasil mendapatkan list user.",
+
+	"common.error.internalServerError": "Terdapat kesalahan di server."
 }

@@ -68,7 +68,9 @@ export class AuthService {
 
       await this.userTokenRepository.save(userToken);
     } catch (error) {
-      throw new InternalServerErrorException(lang.__('internal.server.error'));
+      throw new InternalServerErrorException(
+        lang.__('common.error.internalServerError'),
+      );
     }
 
     return responseJwt;
@@ -107,7 +109,9 @@ export class AuthService {
 
       await this.userTokenRepository.save(userToken);
     } catch (error) {
-      throw new InternalServerErrorException(lang.__('internal.server.error'));
+      throw new InternalServerErrorException(
+        lang.__('common.error.internalServerError'),
+      );
     }
 
     return responseJwt;
@@ -158,7 +162,9 @@ export class AuthService {
         expiredTime: decodeNewRefreshToken.exp,
       });
     } catch (error) {
-      throw new InternalServerErrorException(lang.__('internal.server.error'));
+      throw new InternalServerErrorException(
+        lang.__('common.error.internalServerError'),
+      );
     }
 
     return responseJwt;
