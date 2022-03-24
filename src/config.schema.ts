@@ -20,4 +20,6 @@ export const configValidationSchema = Joi.object({
   DEFAULT_ADMIN_NAME: Joi.string().required(),
   DEFAULT_ADMIN_EMAIL: Joi.string().required(),
   DEFAULT_PASSWORD: Joi.string().required(),
+  SENTRY_DSN: Joi.string().required(),
+  SENTRY_SAMPLE_RATE: Joi.number().default(0.0).max(1.0).required(),
 });
