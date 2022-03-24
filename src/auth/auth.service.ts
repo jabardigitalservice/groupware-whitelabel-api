@@ -134,7 +134,7 @@ export class AuthService {
 
     const decodeOldRefreshToken = await this.decodeJwtToken(refresh_token);
 
-    const user = await this.authRepository.findOne(payload.identifier);
+    const user = await this.authRepository.findById(payload.identifier);
     if (!user)
       throw new UnauthorizedException(lang.__('auth.refreshToken.failed'));
 

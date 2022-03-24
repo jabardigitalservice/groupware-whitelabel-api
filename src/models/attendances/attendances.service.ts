@@ -1,6 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -38,16 +39,20 @@ export class AttendancesService {
         lang.__('attendances.already.checked.in.for.today'),
       );
 
-    const attendance = new Attendance();
+    try {
+      const attendance = new Attendance();
 
-    attendance.startDate = moment.utc(date).toDate();
-    attendance.location = location;
-    attendance.mood = mood;
-    attendance.note = note;
-    attendance.user = user;
+      attendance.startDate = moment.utc(date).toDate();
+      attendance.location = location;
+      attendance.mood = mood;
+      attendance.note = note;
+      attendance.user = user;
 
-    await this.attendancesRepository.save(attendance);
-    return attendance;
+      await this.attendancesRepository.save(attendance);
+      return attendance;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async checkOut(user: User, checkOutDto: CheckOutDto): Promise<Attendance> {
@@ -68,12 +73,16 @@ export class AttendancesService {
         lang.__('attendances.already.checked.out.for.today'),
       );
 
-    attendance.endDate = moment.utc(date).toDate();
-    attendance.officeHours = await this.calculateOfficeHours(attendance);
-    attendance.updatedAt = currentDateTime;
+    try {
+      attendance.endDate = moment.utc(date).toDate();
+      attendance.officeHours = await this.calculateOfficeHours(attendance);
+      attendance.updatedAt = currentDateTime;
 
-    await this.attendancesRepository.save(attendance);
-    return attendance;
+      await this.attendancesRepository.save(attendance);
+      return attendance;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async isTodayAttendance(date: Date): Promise<boolean> {
