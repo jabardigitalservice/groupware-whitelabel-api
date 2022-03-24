@@ -3,25 +3,28 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { AuthRepository } from './auth.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { GoogleStrategy } from './google.strategy';
+import { GoogleStrategy } from './strategy/google.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { UserTokenRepository } from '../models/users/repositories/user-token.repository';
+import { AppConfigService } from '../config/app/config.service';
+import { AppConfigModule } from '../config/app/config.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     ConfigModule,
+    AppConfigModule,
     AuthModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_ACCESS_TOKEN_SECRET'),
+      imports: [ConfigModule, AppConfigModule],
+      inject: [ConfigService, AppConfigService],
+      useFactory: async (appConfigService: AppConfigService) => ({
+        secret: appConfigService.jwtAccessTokenSecret,
         signOptions: {
-          expiresIn: configService.get('JWT_ACCESS_TOKEN_EXPIRES_IN'),
+          expiresIn: appConfigService.jwtAccessTokenExpiresIn,
         },
       }),
     }),

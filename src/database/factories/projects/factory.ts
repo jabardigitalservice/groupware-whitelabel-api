@@ -1,6 +1,6 @@
 import { define } from 'typeorm-seeding';
 import { faker } from '@faker-js/faker';
-import { Projects } from 'src/models/projects/entities/projects.entity';
+import { Projects } from '../../../models/projects/entities/projects.entity';
 
 define(Projects, () => {
   const project = new Projects();

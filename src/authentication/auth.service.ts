@@ -4,7 +4,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -18,6 +17,7 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { UserTokenRepository } from '../models/users/repositories/user-token.repository';
 import { UserToken } from '../models/users/entities/user-token.entity';
 import lang from '../common/language/configuration';
+import { AppConfigService } from '../config/app/config.service';
 
 @Injectable()
 export class AuthService {
@@ -28,12 +28,12 @@ export class AuthService {
     @InjectRepository(UserTokenRepository)
     private authRepository: AuthRepository,
     private userTokenRepository: UserTokenRepository,
-    private configService: ConfigService,
+    private appConfigService: AppConfigService,
     private jwtService: JwtService,
   ) {
     this.oauth2Client = new google.auth.OAuth2(
-      this.configService.get('GOOGLE_CLIENT_ID'),
-      this.configService.get('GOOGLE_CLIENT_SECRET'),
+      this.appConfigService.googleClientId,
+      this.appConfigService.googleClientSecret,
     );
   }
 
@@ -200,8 +200,8 @@ export class AuthService {
 
     try {
       const payload = await this.jwtService.verify(refresh_token, {
-        secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
-        algorithms: this.configService.get('JWT_REFRESH_TOKEN_ALGORITHM'),
+        secret: this.appConfigService.jwtRefreshTokenSecret,
+        algorithms: this.appConfigService.jwtRefreshTokenAlgorithm,
       });
 
       const userRefreshToken = await this.userTokenRepository.findOne({
@@ -224,7 +224,7 @@ export class AuthService {
     const decodeAccessToken = await this.decodeJwtToken(access_token);
 
     const data = {
-      type: this.configService.get('JWT_TYPE'),
+      type: this.appConfigService.jwtType,
       access_token,
       refresh_token,
       expires_in: decodeAccessToken.exp,
@@ -237,9 +237,9 @@ export class AuthService {
     return this.jwtService.sign(
       { identifier },
       {
-        expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRES_IN'),
-        secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
-        algorithm: this.configService.get('JWT_ACCESS_TOKEN_ALGORITHM'),
+        expiresIn: this.appConfigService.jwtAccessTokenExpiresIn,
+        secret: this.appConfigService.jwtAccessTokenSecret,
+        algorithm: this.appConfigService.jwtAccessTokenAlgorithm,
       },
     );
   }
@@ -248,9 +248,9 @@ export class AuthService {
     return this.jwtService.sign(
       { identifier },
       {
-        expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRES_IN'),
-        secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
-        algorithm: this.configService.get('JWT_REFRESH_TOKEN_ALGORITHM'),
+        expiresIn: this.appConfigService.jwtRefreshTokenExpiresIn,
+        secret: this.appConfigService.jwtRefreshTokenSecret,
+        algorithm: this.appConfigService.jwtRefreshTokenAlgorithm,
       },
     );
   }

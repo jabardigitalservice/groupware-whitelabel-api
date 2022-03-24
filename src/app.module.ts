@@ -10,9 +10,12 @@ import { AppConfigModule } from './config/app/config.module';
 import { PostgresConfigModule } from './config/database/postgres/config.module';
 import { PostgresDatabaseProviderModule } from './providers/database/postgres/provider.module';
 import { AppConfigService } from './config/app/config.service';
+import { PostgresConfigService } from './config/database/postgres/config.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule,
     AppConfigModule,
     PostgresConfigModule,
     PostgresDatabaseProviderModule,
@@ -23,6 +26,6 @@ import { AppConfigService } from './config/app/config.service';
     UserSocialAccountModule,
     AttendancesModule,
   ],
-  providers: [AppConfigService],
+  providers: [ConfigService, AppConfigService, PostgresConfigService],
 })
 export class AppModule {}

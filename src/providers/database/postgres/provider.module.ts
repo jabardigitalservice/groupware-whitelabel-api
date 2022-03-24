@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgresConnectionOptions } from 'src/config/database/postgres/config.orm';
+import { PostgresConnectionOptions } from '../../../config/database/postgres/config.orm';
 
 @Module({
   imports: [

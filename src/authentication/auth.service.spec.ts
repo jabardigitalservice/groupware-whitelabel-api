@@ -1,13 +1,15 @@
 import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthRepository } from './auth.repository';
 import { UserTokenRepository } from '../models/users/repositories/user-token.repository';
 import { UnauthorizedException } from '@nestjs/common';
+import { AppConfigService } from '../config/app/config.service';
+import { ConfigService } from '@nestjs/config';
 
 const someUuid = 'some-uuid';
 const someValidJwtToken = 'some-valid-jwt-token';
+
 const mockAuthRepository = () => ({
   findByEmail: jest.fn(),
   findOne: jest.fn(),
@@ -35,6 +37,7 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         ConfigService,
+        AppConfigService,
         JwtService,
         JwtModule,
         { provide: JwtService, useValue: mockJwtService },

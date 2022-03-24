@@ -6,7 +6,7 @@ import {
   Res,
   Version,
 } from '@nestjs/common';
-import lang from 'src/common/language/configuration';
+import lang from '../../common/language/configuration';
 import { GetUsersFilterDto } from './dto/get-users-filter.dto';
 import { UsersService } from './users.service';
 
