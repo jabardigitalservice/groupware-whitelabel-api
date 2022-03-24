@@ -1,6 +1,6 @@
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../models/users/entities/user.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
-import { UserSocialAccount } from '../../user-social-accounts/user-social-account.entity';
+import { UserSocialAccount } from '../../models/user-social-accounts/entities/user-social-account.entity';
 import { createQueryBuilder, getRepository } from 'typeorm';
 
 export default class CreateUserSocialAccounts implements Seeder {

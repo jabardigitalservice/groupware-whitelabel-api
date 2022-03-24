@@ -6,7 +6,9 @@ import {
   TableUnique,
 } from 'typeorm';
 
-export class UserSocialAccountTable1647216765506 implements MigrationInterface {
+export class CreateUserSocialAccountsTable1647216765506
+  implements MigrationInterface
+{
   private tableName = 'user_social_accounts';
   private userTableName = 'users';
 

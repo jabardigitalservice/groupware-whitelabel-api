@@ -5,8 +5,8 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class Attendances1647869718495 implements MigrationInterface {
-  private tableName = 'attendances';
+export class CreateUserTokensTable1647486775403 implements MigrationInterface {
+  private tableName = 'user_tokens';
   private userTableName = 'users';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -28,37 +28,15 @@ export class Attendances1647869718495 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'start_date',
-            type: 'timestamp',
-            isNullable: false,
-          },
-
-          {
-            name: 'end_date',
-            type: 'timestamp',
-            isNullable: true,
-          },
-          {
-            name: 'office_hours',
-            type: 'float',
-            isNullable: true,
-          },
-          {
-            name: 'location',
+            name: 'refresh_token',
             type: 'varchar',
-            length: '100',
+            length: '255',
             isNullable: false,
           },
           {
-            name: 'mood',
-            type: 'varchar',
-            length: '50',
-            isNullable: true,
-          },
-          {
-            name: 'note',
-            type: 'text',
-            isNullable: true,
+            name: 'expired_time',
+            type: 'int',
+            isNullable: false,
           },
           {
             name: 'created_at',

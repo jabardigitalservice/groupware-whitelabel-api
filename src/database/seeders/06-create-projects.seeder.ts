@@ -1,4 +1,4 @@
-import { Projects } from 'src/projects/projects.entity';
+import { Projects } from 'src/models/projects/entities/projects.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
 
 export default class CreateProjects implements Seeder {

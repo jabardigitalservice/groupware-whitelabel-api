@@ -5,7 +5,9 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class UserProfileTable1647216750779 implements MigrationInterface {
+export class CreateUserProfilesTable1647216750779
+  implements MigrationInterface
+{
   private tableName = 'user_profiles';
   private userTableName = 'users';
 
