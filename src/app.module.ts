@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
 import { UserProfileModule } from './user-profiles/user-profiles.module';
 import { UserSocialAccountModule } from './user-social-accounts/user-social-accounts.module';
+import { AttendancesModule } from './models/attendances/attendances.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserSocialAccountModule } from './user-social-accounts/user-social-acco
     UserModule,
     UserProfileModule,
     UserSocialAccountModule,
+    AttendancesModule,
   ],
 })
 export class AppModule {}
