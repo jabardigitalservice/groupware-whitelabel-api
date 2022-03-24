@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  InternalServerErrorException,
   Query,
   Res,
   Version,
@@ -20,12 +21,16 @@ export class UsersController {
     @Query() getUsersFilterDto: GetUsersFilterDto,
     @Res() response,
   ): Promise<any> {
-    const users = await this.usersService.getUsers(getUsersFilterDto);
+    try {
+      const users = await this.usersService.getUsers(getUsersFilterDto);
 
-    return response.status(HttpStatus.OK).send({
-      statusCode: HttpStatus.OK,
-      message: lang.__('users.getAll.success'),
-      data: users,
-    });
+      return response.status(HttpStatus.OK).send({
+        statusCode: HttpStatus.OK,
+        message: lang.__('users.getAll.success'),
+        data: users,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }

@@ -15,26 +15,22 @@ export class UserRepository extends Repository<User> {
   getUsers(getUsersFilterDto: GetUsersFilterDto): Promise<User[]> {
     const { name } = getUsersFilterDto;
 
-    try {
-      const query = this.createQueryBuilder('user')
-        .select([
-          'user.id AS id',
-          'user.name AS name',
-          'userProfile.avatar AS avatar',
-        ])
-        .innerJoin('user.userProfile', 'userProfile')
-        .where('user.deleted_at IS NULL')
-        .orderBy('user.name', 'ASC');
+    const query = this.createQueryBuilder('user')
+      .select([
+        'user.id AS id',
+        'user.name AS name',
+        'userProfile.avatar AS avatar',
+      ])
+      .innerJoin('user.userPsrofile', 'userProfile')
+      .where('user.deleted_at IS NULL')
+      .orderBy('user.name', 'ASC');
 
-      if (name) {
-        query.andWhere('LOWER(user.name) LIKE LOWER(:name)', {
-          name: `%${name}%`,
-        });
-      }
-
-      return query.getRawMany();
-    } catch (error) {
-      throw new InternalServerErrorException(error.message)
+    if (name) {
+      query.andWhere('LOWER(user.name) LIKE LOWER(:name)', {
+        name: `%${name}%`,
+      });
     }
+
+    return query.getRawMany();
   }
 }
