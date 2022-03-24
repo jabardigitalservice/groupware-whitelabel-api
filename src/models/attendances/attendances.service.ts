@@ -42,7 +42,7 @@ export class AttendancesService {
     try {
       const attendance = new Attendance();
 
-      attendance.startDate = moment.utc(date).toDate();
+      attendance.startDate = moment(date).toDate();
       attendance.location = location;
       attendance.mood = mood;
       attendance.note = note;
@@ -57,8 +57,8 @@ export class AttendancesService {
 
   async checkOut(user: User, checkOutDto: CheckOutDto): Promise<Attendance> {
     const { date } = checkOutDto;
-    const currentDate = moment.utc().format('YYYY-MM-DD');
-    const currentDateTime = moment.utc().toDate();
+    const currentDate = moment().format('YYYY-MM-DD');
+    const currentDateTime = moment().toDate();
 
     const attendance = await this.attendancesRepository.findByUserAndToday(
       user,
@@ -74,7 +74,7 @@ export class AttendancesService {
       );
 
     try {
-      attendance.endDate = moment.utc(date).toDate();
+      attendance.endDate = moment(date).toDate();
       attendance.officeHours = await this.calculateOfficeHours(attendance);
       attendance.updatedAt = currentDateTime;
 
@@ -86,8 +86,8 @@ export class AttendancesService {
   }
 
   async isTodayAttendance(date: Date): Promise<boolean> {
-    const currentDate = moment.utc().format('YYYY-MM-DD');
-    return moment.utc(date).format('YYYY-MM-DD') === currentDate;
+    const currentDate = moment().format('YYYY-MM-DD');
+    return moment(date).format('YYYY-MM-DD') === currentDate;
   }
 
   async calculateOfficeHours(
@@ -111,7 +111,7 @@ export class AttendancesService {
   }
 
   async isCheckedIn(user: User): Promise<ResponseIsCheckedIn> {
-    const currentDate = moment.utc().format('YYYY-MM-DD');
+    const currentDate = moment().format('YYYY-MM-DD');
     const isCheckedIn = await this.attendancesRepository.isCheckedIn(
       user,
       currentDate,
@@ -126,7 +126,7 @@ export class AttendancesService {
   }
 
   async isCheckedOut(user: User): Promise<ResponseIsCheckedOut> {
-    const currentDate = moment.utc().format('YYYY-MM-DD');
+    const currentDate = moment().format('YYYY-MM-DD');
     const isCheckedOut = await this.attendancesRepository.isCheckedOut(
       user,
       currentDate,
