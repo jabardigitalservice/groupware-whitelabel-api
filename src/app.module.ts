@@ -11,6 +11,7 @@ import { UserProfileModule } from './user-profiles/user-profiles.module';
 import { UserSocialAccountModule } from './user-social-accounts/user-social-accounts.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpErrorFilter } from './common/exceptions/http-error.filter';
+import { AttendancesModule } from './models/attendances/attendances.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { HttpErrorFilter } from './common/exceptions/http-error.filter';
     UserModule,
     UserProfileModule,
     UserSocialAccountModule,
+    AttendancesModule,
   ],
   providers: [
     {

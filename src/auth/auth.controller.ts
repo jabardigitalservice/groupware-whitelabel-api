@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 import { GoogleAuthenticateDto } from './dto/google-authenticate.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { SignInDto } from './dto/sign-in.dto';
-import { GetUser } from './get-user.decorator';
+import { GetUser } from '../common/decorators/get-user.decorator';
 import lang from '../language/configuration';
 
 @Controller('/auth/users')
