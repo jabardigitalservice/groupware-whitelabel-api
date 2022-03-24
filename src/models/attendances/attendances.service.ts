@@ -6,8 +6,8 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import lang from '../../language/configuration';
-import { User } from '../../users/entities/user.entity';
+import lang from '../../common/language/configuration';
+import { User } from '../users/entities/user.entity';
 import { AttendancesRepository } from './attendances.repository';
 import { CheckInDto } from './dto/check-in.dto';
 import { CheckOutDto } from './dto/check-out.dto';

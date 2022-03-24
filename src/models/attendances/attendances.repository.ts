@@ -1,4 +1,4 @@
-import { User } from '../../users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { Attendance } from './entities/attendance.entity';
 import { InternalServerErrorException } from '@nestjs/common';
