@@ -55,7 +55,7 @@ export class HttpErrorFilter implements ExceptionFilter {
     response
       .status(statusCode)
       .json(
-        environmentMode === 'dev' || environmentMode === 'development'
+        environmentMode !== 'development'
           ? developmentErrorResponse
           : this.getProductionErrorResponse(statusCode, errorMessage),
       );

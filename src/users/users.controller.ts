@@ -3,6 +3,7 @@ import {
   Get,
   HttpStatus,
   InternalServerErrorException,
+  NotImplementedException,
   Query,
   Res,
   Version,
@@ -21,6 +22,7 @@ export class UsersController {
     @Query() getUsersFilterDto: GetUsersFilterDto,
     @Res() response,
   ): Promise<any> {
+    throw new NotImplementedException();
     try {
       const users = await this.usersService.getUsers(getUsersFilterDto);
 
