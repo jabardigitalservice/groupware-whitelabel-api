@@ -14,6 +14,7 @@ import {
   HttpExceptionResponse,
 } from '../interfaces/http-exception-response.interface';
 import Sentry from '../../providers/logging/sentry/sentry.module';
+import * as moment from 'moment';
 
 @Catch()
 export class HttpErrorFilter implements ExceptionFilter {
@@ -83,7 +84,7 @@ export class HttpErrorFilter implements ExceptionFilter {
     error: errorMessage,
     path: request.url,
     method: request.method,
-    timeStamp: new Date().toString(),
+    timeStamp: moment().format('YYYY-MM-DD HH:mm:ss'),
   });
 
   private getProductionErrorResponse = (
