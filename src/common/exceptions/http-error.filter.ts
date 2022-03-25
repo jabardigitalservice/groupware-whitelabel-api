@@ -53,10 +53,7 @@ export class HttpErrorFilter implements ExceptionFilter {
 
     this.logger.error(errorLog);
 
-    if (
-      statusCode === HttpStatus.UNPROCESSABLE_ENTITY ||
-      statusCode >= HttpStatus.INTERNAL_SERVER_ERROR
-    ) {
+    if (statusCode >= HttpStatus.INTERNAL_SERVER_ERROR) {
       Sentry.captureException(exception, {
         tags: {
           level: 'error',
