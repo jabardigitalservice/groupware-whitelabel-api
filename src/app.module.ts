@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
 import { UserProfileModule } from './user-profiles/user-profiles.module';
 import { UserSocialAccountModule } from './user-social-accounts/user-social-accounts.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpErrorFilter } from './common/exceptions/http-error.filter';
 import { AttendancesModule } from './models/attendances/attendances.module';
 
 @Module({
@@ -26,6 +28,12 @@ import { AttendancesModule } from './models/attendances/attendances.module';
     UserProfileModule,
     UserSocialAccountModule,
     AttendancesModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpErrorFilter,
+    },
   ],
 })
 export class AppModule {}

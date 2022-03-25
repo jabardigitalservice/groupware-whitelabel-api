@@ -34,7 +34,7 @@ export class UserRepository extends Repository<User> {
 
       return query.getRawMany();
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message);
     }
   }
 }
