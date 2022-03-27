@@ -5,7 +5,7 @@ import {
   IsString,
   Matches,
 } from 'class-validator';
-import lang from '../../../language/configuration';
+import lang from '../../../common/language/configuration';
 import { Mood } from '../constants/mood.constants';
 
 export class CheckInDto {

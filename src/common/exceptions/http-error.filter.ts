@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response, Request } from 'express';
-import lang from 'src/language/configuration';
+import lang from '../language/configuration';
 import {
   DevelopmentErrorResponse,
   HttpExceptionResponse,

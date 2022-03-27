@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AttendancesService } from './attendances.service';
-import lang from '../../language/configuration';
+import lang from '../../common/language/configuration';
 import { CheckInDto } from './dto/check-in.dto';
 import { CheckOutDto } from './dto/check-out.dto';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 import { GetUserId } from '../../common/decorators/get-user-id.decorator';
 
 @Controller('attendances')
