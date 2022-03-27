@@ -5,6 +5,8 @@ import { AuthModule } from './authentication/auth.module';
 import { UserModule } from './models/users/users.module';
 import { UserProfileModule } from './models/user-profiles/user-profiles.module';
 import { UserSocialAccountModule } from './models/user-social-accounts/user-social-accounts.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpErrorFilter } from './common/exceptions/http-error.filter';
 import { AttendancesModule } from './models/attendances/attendances.module';
 import { AppConfigModule } from './config/app/config.module';
 import { PostgresConfigModule } from './config/database/postgres/config.module';
@@ -26,6 +28,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UserSocialAccountModule,
     AttendancesModule,
   ],
-  providers: [ConfigService, AppConfigService, PostgresConfigService],
+  providers: [
+    ConfigService,
+    AppConfigService,
+    PostgresConfigService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpErrorFilter,
+    },
+  ],
 })
 export class AppModule {}

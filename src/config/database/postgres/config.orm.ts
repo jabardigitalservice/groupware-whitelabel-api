@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.APP_ENV === 'production';
 export const PostgresConnectionOptions: TypeOrmModuleOptions = {
   type: 'postgres',
   host: process.env.POSTGRES_HOST,
