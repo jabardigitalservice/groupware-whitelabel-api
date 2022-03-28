@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { Module } from '@nestjs/common';
-import { ScheduleModule } from '@nestjs/schedule';
 import { ProjectsModule } from './models/projects/projects.module';
 import { AuthModule } from './authentication/auth.module';
 import { UserModule } from './models/users/users.module';
