@@ -1,0 +1,28 @@
+{
+	"auth.signin.success": "Melakukan sign in berhasil dilakukan.",
+	"auth.signin.failed": "Email atau Kata Sandi tidak ditemukan.",
+	"auth.active.failed": "Akun sedang tidak aktif.",
+	"auth.signin.google.not.found": "Akun tidak ditemukan.",
+	"auth.me.success": "Memuat data diri berhasil dilakukan.",
+	"auth.refreshToken.success": "Melakukan pembaruan token berhasil dilakukan.",
+	"auth.refreshToken.failed": "Refresh token tidak aktif.",
+	"auth.token.not.valid": "Token tidak valid.",
+	"auth.signout.success": "Melakukan sign out berhasil dilakukan.",
+
+	"attendances.date.error": "Tanggal dan waktu tidak valid.",
+	"attendances.checkin.success": "Checkin berhasil dilakukan.",
+	"attendances.already.checked.in.for.today": "Anda sudah melakukan checkin untuk hari ini.",
+	"attendances.not.today": "Anda tidak dapat melakukan checkin untuk bukan hari ini.",
+	"attendances.checkout.success": "Checkout berhasil dilakukan.",
+	"attendances.not.found": "Anda belum melakukan checkin untuk hari ini.",
+	"attendances.checkout.end.time.before.start.time.error": "Waktu checkout tidak boleh lebih awal dari waktu checkin",
+	"attendances.already.checked.out.for.today": "Anda sudah melakukan checkout untuk hari ini.",
+	"attendances.is.checked.in.success": "Memuat status checkin berhasil dilakukan.",
+	"attendances.is.checked.out.success": "Memuat status checkout berhasil dilakukan.",
+	
+	"projects.getAll.success": "Berhasil mendapatkan list project.",
+	
+	"users.getAll.success": "Berhasil mendapatkan list user.",
+
+	"common.error.internalServerError": "Terdapat kesalahan di server."
+}
