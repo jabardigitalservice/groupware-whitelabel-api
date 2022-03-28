@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from '../../auth/auth.module';
+import { AuthModule } from '../../authentication/auth.module';
 import { AttendancesController } from './attendances.controller';
 import { AttendancesRepository } from './attendances.repository';
 import { AttendancesService } from './attendances.service';

@@ -1,5 +1,5 @@
 import { IsNotEmpty, Matches } from 'class-validator';
-import lang from '../../../language/configuration';
+import lang from '../../../common/language/configuration';
 
 export class CheckOutDto {
   @IsNotEmpty()

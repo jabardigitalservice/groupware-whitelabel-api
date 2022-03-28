@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { AttendancesService } from './attendances.service';
 import { AttendancesRepository } from './attendances.repository';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 import { Mood } from './constants/mood.constants';
 
 const mockAttendancesRepository = () => ({

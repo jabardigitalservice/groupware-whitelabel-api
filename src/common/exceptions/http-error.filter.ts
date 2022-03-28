@@ -4,11 +4,12 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response, Request } from 'express';
-import lang from 'src/language/configuration';
+import lang from '../language/configuration';
 import {
   DevelopmentErrorResponse,
   HttpExceptionResponse,
@@ -16,7 +17,7 @@ import {
 import Sentry from '../../providers/logging/sentry/sentry.module';
 import * as moment from 'moment';
 
-@Catch()
+@Catch(InternalServerErrorException)
 export class HttpErrorFilter implements ExceptionFilter {
   private logger: Logger;
   constructor(private configService: ConfigService) {
