@@ -35,7 +35,7 @@ services:
     environment:
       POSTGRES_HOST: groupware-whitelabel-postgres
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - 3000:3000
     depends_on:
       - groupware-whitelabel-postgres
     networks:

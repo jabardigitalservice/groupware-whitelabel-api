@@ -1,5 +1,5 @@
 {
-  "name": "challenge-digiteam-jds",
+  "name": "groupware-whitelabel",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -34,8 +34,6 @@
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.3",
-    "@types/i18n": "^0.13.2",
-    "@types/passport-jwt": "^3.0.6",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -55,6 +53,8 @@
     "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
+    "@types/i18n": "^0.13.2",
+    "@types/passport-jwt": "^3.0.6",
     "@faker-js/faker": "^6.0.0-beta.0",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
