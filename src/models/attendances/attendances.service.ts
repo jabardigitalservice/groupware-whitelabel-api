@@ -153,10 +153,14 @@ export class AttendancesService {
       attendance.endDate = startDate
         .add(this.appConfigService.autoCheckOutTime, 'hours')
         .toDate();
-      attendance.officeHours = await this.calculateOfficeHours(attendance);
+      attendance.officeHours = this.appConfigService.autoCheckOutTime;
       attendance.updatedAt = currentDateTime;
 
-      await this.attendancesRepository.save(attendance);
+      try {
+        await this.attendancesRepository.save(attendance);
+      } catch (error) {
+        throw new InternalServerErrorException(error.message);
+      }
     });
   }
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppConfigModule } from 'src/config/app/config.module';
-import { AppConfigService } from 'src/config/app/config.service';
+import { AppConfigModule } from '../../config/app/config.module';
+import { AppConfigService } from '../../config/app/config.service';
 import { AuthModule } from '../../authentication/auth.module';
 import { AttendancesController } from './attendances.controller';
 import { AttendancesRepository } from './attendances.repository';

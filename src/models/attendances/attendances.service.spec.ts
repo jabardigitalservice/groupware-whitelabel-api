@@ -2,9 +2,12 @@ import { Test } from '@nestjs/testing';
 import { AttendancesService } from './attendances.service';
 import { AttendancesRepository } from './attendances.repository';
 import { User } from '../users/entities/user.entity';
-import { Mood } from './constants/mood.constants';
+import { Mood } from './enums/mood.enums';
+import { AppConfigService } from '../../config/app/config.service';
+import { ConfigService } from '@nestjs/config';
 
 const mockAttendancesRepository = () => ({
+  findByNotCheckedOut: jest.fn(),
   findByUserAndToday: jest.fn(),
   isCheckedIn: jest.fn(),
   isCheckedOut: jest.fn(),
@@ -39,6 +42,8 @@ const mockAttendance = {
   },
 };
 
+const mockAttendances = [mockAttendance, mockAttendance, mockAttendance];
+
 const mockAtendanceForCheckOut = {
   id: 'someId',
   startDate: new Date(),
@@ -58,6 +63,8 @@ describe('AttendancesService', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
+        ConfigService,
+        AppConfigService,
         AttendancesService,
         {
           provide: AttendancesRepository,
@@ -254,6 +261,18 @@ describe('AttendancesService', () => {
 
       const result = await attendancesService.isCheckedOut(mockUser);
       expect(result.isCheckedOut).toEqual(false);
+    });
+  });
+
+  describe('autoCheckOut', () => {
+    it('should check out if user is checked in', async () => {
+      await attendancesRepository.findByNotCheckedOut.mockResolvedValue(
+        mockAttendances,
+      );
+      await attendancesRepository.save.mockResolvedValue(mockAttendance);
+
+      const result = await attendancesService.autoCheckOut();
+      expect(result).toBeUndefined();
     });
   });
 });
