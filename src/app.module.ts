@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ProjectsModule } from './models/projects/projects.module';
 import { AuthModule } from './authentication/auth.module';
 import { UserModule } from './models/users/users.module';
@@ -14,6 +15,7 @@ import { PostgresDatabaseProviderModule } from './providers/database/postgres/pr
 import { AppConfigService } from './config/app/config.service';
 import { PostgresConfigService } from './config/database/postgres/config.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduledAttendancesAutoCheckoutModule } from './cron/attendances/scheduled-auto-checkout.module';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UserProfileModule,
     UserSocialAccountModule,
     AttendancesModule,
+    ScheduledAttendancesAutoCheckoutModule,
   ],
   providers: [
     ConfigService,

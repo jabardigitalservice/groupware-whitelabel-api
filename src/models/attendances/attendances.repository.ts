@@ -5,6 +5,18 @@ import { InternalServerErrorException } from '@nestjs/common';
 
 @EntityRepository(Attendance)
 export class AttendancesRepository extends Repository<Attendance> {
+  async findByNotCheckedOut(): Promise<Attendance[]> {
+    try {
+      const attendances = await this.createQueryBuilder('attendances')
+        .andWhere('attendances.end_date IS NULL')
+        .getMany();
+
+      return attendances;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
   async findByUserAndToday(user: User, today: string): Promise<Attendance> {
     try {
       const attendance = await this.createQueryBuilder('attendances')
