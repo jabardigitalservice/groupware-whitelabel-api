@@ -15,6 +15,7 @@ import { PostgresDatabaseProviderModule } from './providers/database/postgres/pr
 import { AppConfigService } from './config/app/config.service';
 import { PostgresConfigService } from './config/database/postgres/config.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MailModule } from './providers/mail/mail.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UserProfileModule,
     UserSocialAccountModule,
     AttendancesModule,
+    MailModule,
   ],
   providers: [
     ConfigService,
