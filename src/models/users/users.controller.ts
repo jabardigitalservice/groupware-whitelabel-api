@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   HttpStatus,
@@ -21,6 +22,8 @@ export class UsersController {
     @Query() getUsersFilterDto: GetUsersFilterDto,
     @Res() response,
   ): Promise<any> {
+    throw new InternalServerErrorException('password salah');
+
     try {
       const users = await this.usersService.getUsers(getUsersFilterDto);
 
