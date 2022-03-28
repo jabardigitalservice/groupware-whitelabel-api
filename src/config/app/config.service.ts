@@ -21,6 +21,10 @@ export class AppConfigService {
     return this.configService.get('app.APP_LANGUAGE');
   }
 
+  get autoCheckOutTime(): number {
+    return this.configService.get('app.AUTO_CHECK_OUT_TIME');
+  }
+
   get jwtAccessTokenSecret(): string {
     return this.configService.get('app.JWT_ACCESS_TOKEN_SECRET');
   }
