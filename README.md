@@ -1,6 +1,6 @@
 # Digiteam
 
-Digiteam is 
+Digiteam is an attendance application along with daily reports for OPD workers in West Java
 
 
 ## Tech Stacks
