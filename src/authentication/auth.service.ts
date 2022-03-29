@@ -304,6 +304,7 @@ export class AuthService {
     const sendMail = await this.mailService.sendForgotPassword(
       user,
       forgotPasswordToken,
+      this.appConfigService.forgotPasswordLinkExpired,
     );
 
     if (!sendMail.accepted.includes(email)) {
