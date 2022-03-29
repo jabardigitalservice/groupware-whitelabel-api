@@ -18,12 +18,14 @@ import {
   ResponseIsCheckedOut,
 } from './interfaces/attendance.interface';
 import * as moment from 'moment';
+import { AppConfigService } from '../../config/app/config.service';
 
 @Injectable()
 export class AttendancesService {
   constructor(
     @InjectRepository(AttendancesRepository)
     private attendancesRepository: AttendancesRepository,
+    private appConfigService: AppConfigService,
   ) {}
 
   async checkIn(user: User, checkInDto: CheckInDto): Promise<Attendance> {
@@ -137,5 +139,28 @@ export class AttendancesService {
     };
 
     return response;
+  }
+
+  async autoCheckOut(): Promise<void> {
+    const attendances = await this.attendancesRepository.findByNotCheckedOut();
+
+    if (!attendances) return;
+
+    attendances.map(async (attendance) => {
+      const startDate = moment(attendance.startDate);
+      const currentDateTime = moment().toDate();
+
+      attendance.endDate = startDate
+        .add(this.appConfigService.autoCheckOutTime, 'hours')
+        .toDate();
+      attendance.officeHours = this.appConfigService.autoCheckOutTime;
+      attendance.updatedAt = currentDateTime;
+
+      try {
+        await this.attendancesRepository.save(attendance);
+      } catch (error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    });
   }
 }

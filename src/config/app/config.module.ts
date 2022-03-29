@@ -17,6 +17,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         APP_PORT: Joi.number().default(3000),
         APP_LANGUAGE: Joi.string().default('id'),
 
+        AUTO_CHECK_OUT_TIME: Joi.number().default(8.5),
+
         JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
         JWT_ACCESS_TOKEN_ALGORITHM: Joi.string().required(),
         JWT_ACCESS_TOKEN_EXPIRES_IN: Joi.string().required(),

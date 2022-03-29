@@ -6,7 +6,7 @@ import {
   Matches,
 } from 'class-validator';
 import lang from '../../../common/language/configuration';
-import { Mood } from '../constants/mood.constants';
+import { Mood } from '../enums/mood.enums';
 
 export class CheckInDto {
   @IsNotEmpty()

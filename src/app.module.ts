@@ -15,6 +15,7 @@ import { PostgresDatabaseProviderModule } from './providers/database/postgres/pr
 import { AppConfigService } from './config/app/config.service';
 import { PostgresConfigService } from './config/database/postgres/config.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduledAttendancesAutoCheckoutModule } from './cron/attendances/scheduled-auto-checkout.module';
 import { MailModule } from './providers/mail/mail.module';
 
 @Module({
@@ -29,6 +30,7 @@ import { MailModule } from './providers/mail/mail.module';
     UserProfileModule,
     UserSocialAccountModule,
     AttendancesModule,
+    ScheduledAttendancesAutoCheckoutModule,
     MailModule,
   ],
   providers: [
