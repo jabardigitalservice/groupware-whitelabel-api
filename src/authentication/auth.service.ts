@@ -22,7 +22,7 @@ import lang from '../common/language/configuration';
 import { AppConfigService } from '../config/app/config.service';
 import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
 import { MailService } from 'src/providers/mail/mail.service';
-
+import * as moment from 'moment';
 @Injectable()
 export class AuthService {
   oauth2Client: Auth.OAuth2Client;
@@ -300,11 +300,13 @@ export class AuthService {
 
     const forgotPasswordToken = await this.createForgotPasswordToken(user.id);
     const decodeRefreshToken = await this.decodeJwtToken(forgotPasswordToken);
+    const expiredTime =
+      moment(decodeRefreshToken.exp * 1000).diff(moment(), 'minute') + 1;
 
     const sendMail = await this.mailService.sendForgotPassword(
       user,
       forgotPasswordToken,
-      this.appConfigService.forgotPasswordLinkExpired,
+      expiredTime,
     );
 
     if (!sendMail.accepted.includes(email)) {
