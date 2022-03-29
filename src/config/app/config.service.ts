@@ -85,4 +85,14 @@ export class AppConfigService {
   get forgotPasswordUrl(): string {
     return this.configService.get('app.FORGOT_PASSWORD_URL');
   }
+
+  get jwtForgotPasswordTokenSecret(): string {
+    return this.configService.get('app.JWT_FORGOT_PASSWORD_TOKEN_SECRET');
+  }
+  get jwtForgotPasswordTokenAlgorithm(): any {
+    return this.configService.get('app.JWT_FORGOT_PASSWORD_TOKEN_ALGORITHM');
+  }
+  get jwtForgotPasswordTokenExpiresIn(): string {
+    return this.configService.get('app.JWT_FORGOT_PASSWORD_TOKEN_EXPIRES_IN');
+  }
 }
