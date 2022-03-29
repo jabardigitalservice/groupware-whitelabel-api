@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
+import { Token } from '../enums/token.enum';
 import { User } from './user.entity';
 
 @Entity('user_tokens')
@@ -20,11 +21,19 @@ export class UserToken {
 
   @Column({
     type: 'varchar',
-    name: 'refresh_token',
+    name: 'token',
     length: 255,
     nullable: false,
   })
-  public refreshToken: string;
+  public token: string;
+
+  @Column('enum', {
+    enum: Token,
+    name: 'token_type',
+    default: Token.REFRESH,
+    nullable: false,
+  })
+  public tokenType: Token;
 
   @Column({
     type: 'int',

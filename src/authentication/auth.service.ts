@@ -14,6 +14,7 @@ import { SignInDto } from './dto/sign-in.dto';
 import { google, Auth } from 'googleapis';
 import { GoogleAuthenticateDto } from './dto/google-authenticate.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { Token } from '../models/users/enums/token.enum';
 import { UserTokenRepository } from '../models/users/repositories/user-token.repository';
 import { UserToken } from '../models/users/entities/user-token.entity';
 import lang from '../common/language/configuration';
@@ -63,7 +64,8 @@ export class AuthService {
     try {
       const userToken = new UserToken();
       userToken.user = user;
-      userToken.refreshToken = responseJwt.refresh_token;
+      userToken.token = responseJwt.refresh_token;
+      userToken.tokenType = Token.REFRESH;
       userToken.expiredTime = decodeRefreshToken.exp;
 
       await this.userTokenRepository.save(userToken);
@@ -104,7 +106,8 @@ export class AuthService {
     try {
       const userToken = new UserToken();
       userToken.user = user;
-      userToken.refreshToken = responseJwt.refresh_token;
+      userToken.token = responseJwt.refresh_token;
+      userToken.tokenType = Token.REFRESH;
       userToken.expiredTime = decodeRefreshToken.exp;
 
       await this.userTokenRepository.save(userToken);
@@ -173,7 +176,8 @@ export class AuthService {
   signOut = async (refreshTokenDto: RefreshTokenDto): Promise<void> => {
     const { refresh_token } = refreshTokenDto;
     const userToken = await this.userTokenRepository.findOne({
-      refreshToken: refresh_token,
+      token: refresh_token,
+      tokenType: Token.REFRESH,
     });
 
     if (!userToken)
@@ -211,7 +215,8 @@ export class AuthService {
       });
 
       const userRefreshToken = await this.userTokenRepository.findOne({
-        refreshToken: refresh_token,
+        token: refresh_token,
+        tokenType: Token.REFRESH,
       });
 
       if (!userRefreshToken)

@@ -28,9 +28,15 @@ export class CreateUserTokensTable1647486775403 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'refresh_token',
+            name: 'token',
             type: 'varchar',
             length: '255',
+            isNullable: false,
+          },
+          {
+            name: 'token_type',
+            type: 'varchar',
+            length: '30',
             isNullable: false,
           },
           {
@@ -40,13 +46,13 @@ export class CreateUserTokensTable1647486775403 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'timestamp without time zone',
             default: 'CURRENT_TIMESTAMP(6)',
             isNullable: false,
           },
           {
             name: 'updated_at',
-            type: 'timestamp',
+            type: 'timestamp without time zone',
             default: 'CURRENT_TIMESTAMP(6)',
             onUpdate: 'CURRENT_TIMESTAMP(6)',
             isNullable: false,
