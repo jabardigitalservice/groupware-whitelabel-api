@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -19,6 +20,8 @@ import { UserTokenRepository } from '../models/users/repositories/user-token.rep
 import { UserToken } from '../models/users/entities/user-token.entity';
 import lang from '../common/language/configuration';
 import { AppConfigService } from '../config/app/config.service';
+import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
+import { MailService } from 'src/providers/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +34,7 @@ export class AuthService {
     private userTokenRepository: UserTokenRepository,
     private appConfigService: AppConfigService,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {
     this.oauth2Client = new google.auth.OAuth2(
       this.appConfigService.googleClientId,
@@ -266,11 +270,61 @@ export class AuthService {
     );
   }
 
+  async createForgotPasswordToken(identifier: string): Promise<string> {
+    return this.jwtService.sign(
+      { identifier },
+      {
+        expiresIn: this.appConfigService.jwtForgotPasswordTokenExpiresIn,
+        secret: this.appConfigService.jwtForgotPasswordTokenAlgorithm,
+        algorithm: this.appConfigService.jwtRefreshTokenAlgorithm,
+      },
+    );
+  }
+
   async decodeJwtToken(token: string): Promise<any> {
     try {
       return this.jwtService.decode(token);
     } catch (error) {
       throw new UnauthorizedException(lang.__('auth.token.not.failed'));
+    }
+  }
+
+  async requestForgotPassword(
+    requestForgotPasswordDto: RequestForgotPasswordDto,
+  ) {
+    const { email } = requestForgotPasswordDto;
+
+    const user = await this.authRepository.findByEmail(email);
+    if (!user || user.deletedAt)
+      throw new BadRequestException(lang.__('forgotPassword.account.notFound'));
+
+    const forgotPasswordToken = await this.createForgotPasswordToken(user.id);
+    const decodeRefreshToken = await this.decodeJwtToken(forgotPasswordToken);
+
+    const sendMail = await this.mailService.sendForgotPassword(
+      user,
+      forgotPasswordToken,
+      this.appConfigService.forgotPasswordLinkExpired,
+    );
+
+    if (!sendMail.accepted.includes(email)) {
+      throw new BadRequestException(lang.__('forgotPassword.request.failed'));
+    }
+
+    try {
+      const userToken = new UserToken();
+      userToken.user = user;
+      userToken.token = forgotPasswordToken;
+      userToken.tokenType = Token.FORGOT_PASSWORD;
+      userToken.expiredTime = decodeRefreshToken.exp;
+
+      await this.userTokenRepository.save(userToken);
+      return {
+        email: user.email,
+        expired_time: decodeRefreshToken.exp,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

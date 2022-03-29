@@ -27,6 +27,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         JWT_REFRESH_TOKEN_ALGORITHM: Joi.string().required(),
         JWT_REFRESH_TOKEN_EXPIRES_IN: Joi.string().required(),
 
+        JWT_FORGOT_PASSWORD_TOKEN_SECRET: Joi.string().required(),
+        JWT_FORGOT_PASSWORD_TOKEN_ALGORITHM: Joi.string().required(),
+        JWT_FORGOT_PASSWORD_TOKEN_EXPIRES_IN: Joi.string().required(),
+
         GOOGLE_CLIENT_ID: Joi.string().required(),
         GOOGLE_CLIENT_SECRET: Joi.string().required(),
         GOOGLE_SCOPE: Joi.string().required(),
