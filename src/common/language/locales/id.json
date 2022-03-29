@@ -26,5 +26,9 @@
 
 	"common.error.internalServerError": "Terdapat kesalahan di server.",
 
-	"mail.forgotPassword.subject": "Reset Password Link"
+	"mail.forgotPassword.subject": "Reset Password Link",
+
+	"forgotPassword.account.notFound": "Email tidak ditemukan",
+	"forgotPassword.request.failed": "Gagal mengirim email lupa kata sandi",
+	"forgotPassword.request.success": "Link reset password berhasil dikirim ke email, segera check email dan klik tombol sebelum link expired!"
 }

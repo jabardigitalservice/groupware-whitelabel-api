@@ -16,6 +16,7 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import lang from '../common/language/configuration';
+import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
 
 @Controller('/auth/users')
 export class AuthController {
@@ -90,6 +91,23 @@ export class AuthController {
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
       message: lang.__('auth.signout.success'),
+      data,
+    });
+  }
+
+  @Version('1')
+  @Post('/forgot-password/request')
+  async requestForgotPassword(
+    @Body() requestForgotPassword: RequestForgotPasswordDto,
+    @Res() response,
+  ): Promise<void> {
+    const data = await this.authService.requestForgotPassword(
+      requestForgotPassword,
+    );
+
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: lang.__('forgotPassword.request.success'),
       data,
     });
   }
