@@ -24,5 +24,7 @@
 	
 	"users.getAll.success": "Berhasil mendapatkan list user.",
 
-	"common.error.internalServerError": "Terdapat kesalahan di server."
+	"common.error.internalServerError": "Terdapat kesalahan di server.",
+
+	"mail.forgotPassword.subject": "Reset Password Link"
 }

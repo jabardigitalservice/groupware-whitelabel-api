@@ -1,0 +1,4 @@
+export enum Token {
+  REFRESH = 'REFRESH',
+  FORGOT_PASSWORD = 'FORGOT_PASSWORD',
+}

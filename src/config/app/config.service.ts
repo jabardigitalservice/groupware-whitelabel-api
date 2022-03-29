@@ -72,4 +72,21 @@ export class AppConfigService {
   get defaultPassword(): string {
     return this.configService.get('app.DEFAULT_PASSWORD');
   }
+
+  get mailHost(): string {
+    return this.configService.get('app.MAIL_HOST');
+  }
+  get mailUser(): string {
+    return this.configService.get('app.MAIL_USER');
+  }
+  get mailPassword(): string {
+    return this.configService.get('app.MAIL_PASSWORD');
+  }
+  get mailFrom(): string {
+    return this.configService.get('app.MAIL_FROM');
+  }
+
+  get forgotPasswordUrl(): string {
+    return this.configService.get('app.FORGOT_PASSWORD_URL');
+  }
 }

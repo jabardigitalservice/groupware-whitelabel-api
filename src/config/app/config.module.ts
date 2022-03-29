@@ -37,6 +37,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         DEFAULT_ADMIN_NAME: Joi.string().required(),
         DEFAULT_ADMIN_EMAIL: Joi.string().required(),
         DEFAULT_PASSWORD: Joi.string().required(),
+
+        MAIL_HOST: Joi.string().required(),
+        MAIL_USER: Joi.string().required(),
+        MAIL_PASSWORD: Joi.string().required(),
+        MAIL_FROM: Joi.string().required(),
       }),
     }),
   ],

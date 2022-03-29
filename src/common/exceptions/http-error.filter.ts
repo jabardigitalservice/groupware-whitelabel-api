@@ -4,6 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -13,8 +14,10 @@ import {
   DevelopmentErrorResponse,
   HttpExceptionResponse,
 } from '../interfaces/http-exception-response.interface';
+import Sentry from '../../providers/logging/sentry/sentry.module';
+import * as moment from 'moment';
 
-@Catch()
+@Catch(InternalServerErrorException)
 export class HttpErrorFilter implements ExceptionFilter {
   private logger: Logger;
   constructor(private configService: ConfigService) {
@@ -52,6 +55,17 @@ export class HttpErrorFilter implements ExceptionFilter {
 
     this.logger.error(errorLog);
 
+    if (statusCode >= HttpStatus.INTERNAL_SERVER_ERROR) {
+      Sentry.captureException(exception, {
+        tags: {
+          level: 'error',
+          userAgent: request.headers['user-agent'],
+          ...developmentErrorResponse,
+        },
+        user: request.user,
+      });
+    }
+
     const environmentMode = this.configService.get('NODE_ENV');
     response
       .status(statusCode)
@@ -71,7 +85,7 @@ export class HttpErrorFilter implements ExceptionFilter {
     error: errorMessage,
     path: request.url,
     method: request.method,
-    timeStamp: new Date(),
+    timeStamp: moment().format('YYYY-MM-DD HH:mm:ss'),
   });
 
   private getProductionErrorResponse = (

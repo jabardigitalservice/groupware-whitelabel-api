@@ -11,6 +11,7 @@ import { UserTokenRepository } from '../models/users/repositories/user-token.rep
 import { AppConfigService } from '../config/app/config.service';
 import { AppConfigModule } from '../config/app/config.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MailModule } from 'src/providers/mail/mail.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
     TypeOrmModule.forFeature([AuthRepository, UserTokenRepository]),
+    MailModule,
   ],
   providers: [AuthService, GoogleStrategy, JwtStrategy],
   controllers: [AuthController],

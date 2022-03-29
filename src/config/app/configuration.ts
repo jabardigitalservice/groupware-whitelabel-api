@@ -27,4 +27,11 @@ export default registerAs('app', () => ({
   DEFAULT_ADMIN_NAME: process.env.DEFAULT_ADMIN_NAME,
   DEFAULT_ADMIN_EMAIL: process.env.DEFAULT_ADMIN_EMAIL,
   DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD,
+
+  MAIL_HOST: process.env.MAIL_HOST,
+  MAIL_USER: process.env.MAIL_USER,
+  MAIL_PASSWORD: process.env.MAIL_PASSWORD,
+  MAIL_FROM: process.env.MAIL_FROM,
+
+  FORGOT_PASSWORD_URL: process.env.FORGOT_PASSWORD_URL,
 }));

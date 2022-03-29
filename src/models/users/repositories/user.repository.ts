@@ -12,7 +12,7 @@ export class UserRepository extends Repository<User> {
       .add(roleId);
   }
 
-  getUsers(getUsersFilterDto: GetUsersFilterDto): Promise<User[]> {
+  async getUsers(getUsersFilterDto: GetUsersFilterDto): Promise<User[]> {
     const { name } = getUsersFilterDto;
 
     try {
@@ -32,7 +32,7 @@ export class UserRepository extends Repository<User> {
         });
       }
 
-      return query.getRawMany();
+      return await query.getRawMany();
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
