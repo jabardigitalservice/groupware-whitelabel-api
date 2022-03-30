@@ -348,12 +348,6 @@ export class AuthService {
           lang.__('auth.requestForgotPassword.link.invalid'),
         );
 
-      if (Date.now() >= userForgotPasswordToken.expiredTime * 1000) {
-        throw new BadRequestException(
-          lang.__('auth.requestForgotPassword.token.expired'),
-        );
-      }
-
       return payload;
     } catch (error) {
       let message = error.message;
