@@ -57,10 +57,10 @@ Make sure there is already a PostgreSQL database created and the credetials are 
 
     ```bash
     # apply migrations to database
-    $ yarn migrate:run
+    $ yarn migration:run
 
     # This command will execute down in the latest executed migration.
-    $ yarn migrate:revert
+    $ yarn migration:revert
     ```
   - With make
 
