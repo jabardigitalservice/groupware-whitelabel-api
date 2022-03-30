@@ -99,7 +99,4 @@ export class AppConfigService {
   get jwtForgotPasswordTokenExpiresIn(): string {
     return this.configService.get('app.JWT_FORGOT_PASSWORD_TOKEN_EXPIRES_IN');
   }
-  get forgotPasswordLinkExpired(): string {
-    return this.configService.get('app.FORGOT_PASSWORD_LINK_EXPIRED');
-  }
 }

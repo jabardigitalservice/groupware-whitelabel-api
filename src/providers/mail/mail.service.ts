@@ -11,7 +11,7 @@ export class MailService {
     private appConfigService: AppConfigService,
   ) {}
 
-  async sendForgotPassword(user: User, token: string, minute: string) {
+  async sendForgotPassword(user: User, token: string, minute: number) {
     const url = `${this.appConfigService.forgotPasswordUrl}?token=${token}`;
 
     try {
