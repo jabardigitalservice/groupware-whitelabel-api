@@ -99,6 +99,12 @@ Make sure there is already a PostgreSQL database created, the credetials are fil
     # seeding data to database
     $ yarn seed:run
     ```
+  - With make
+
+    ```bash
+    # seeding data to database
+    $ make seed
+    ```
  - Locally with docker
 
     ```bash
