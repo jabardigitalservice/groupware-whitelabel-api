@@ -23,6 +23,7 @@ import { AppConfigService } from '../config/app/config.service';
 import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
 import { MailService } from 'src/providers/mail/mail.service';
 import * as moment from 'moment';
+import { VerifyForgotPasswordTokenDto } from './dto/verify-forgot-password-token.dto';
 @Injectable()
 export class AuthService {
   oauth2Client: Auth.OAuth2Client;
@@ -275,7 +276,7 @@ export class AuthService {
       { identifier },
       {
         expiresIn: this.appConfigService.jwtForgotPasswordTokenExpiresIn,
-        secret: this.appConfigService.jwtForgotPasswordTokenAlgorithm,
+        secret: this.appConfigService.jwtForgotPasswordTokenSecret,
         algorithm: this.appConfigService.jwtRefreshTokenAlgorithm,
       },
     );
@@ -328,5 +329,70 @@ export class AuthService {
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
+  }
+
+  async verifyForgotPasswordToken(forgotPasswordToken: string): Promise<any> {
+    try {
+      const payload = await this.jwtService.verify(forgotPasswordToken, {
+        secret: this.appConfigService.jwtForgotPasswordTokenSecret,
+        algorithms: this.appConfigService.jwtForgotPasswordTokenAlgorithm,
+      });
+
+      const userForgotPasswordToken = await this.userTokenRepository.findOne({
+        token: forgotPasswordToken,
+        tokenType: Token.FORGOT_PASSWORD,
+      });
+
+      if (!userForgotPasswordToken)
+        throw new BadRequestException(
+          lang.__('auth.requestForgotPassword.link.invalid'),
+        );
+
+      if (Date.now() >= userForgotPasswordToken.expiredTime * 1000) {
+        throw new BadRequestException(
+          lang.__('auth.requestForgotPassword.token.expired'),
+        );
+      }
+
+      return payload;
+    } catch (error) {
+      let message = error.message;
+      if (error.message === 'jwt expired') {
+        message = lang.__('auth.requestForgotPassword.token.expired');
+      } else if (
+        error.message === 'invalid token' ||
+        error.message === 'Unexpected end of JSON input' ||
+        error.message === 'invalid signature'
+      ) {
+        message = lang.__('auth.requestForgotPassword.link.invalid');
+      }
+
+      throw new BadRequestException(message);
+    }
+  }
+
+  async verifyLinkForgotPassword(
+    verifyForgotPasswordTokenDto: VerifyForgotPasswordTokenDto,
+  ): Promise<any> {
+    const { token } = verifyForgotPasswordTokenDto;
+
+    const verifyForgotPasswordToken = await this.verifyForgotPasswordToken(
+      token,
+    );
+    if (!verifyForgotPasswordToken)
+      throw new BadRequestException(
+        lang.__('auth.requestForgotPassword.link.invalid'),
+      );
+
+    const user = await this.authRepository.findOne(
+      verifyForgotPasswordToken.identifier,
+    );
+    if (!user || user.deletedAt)
+      throw new NotFoundException(lang.__('forgotPassword.account.notFound'));
+
+    if (!user.isActive)
+      throw new BadRequestException(lang.__('auth.active.failed'));
+
+    return true;
   }
 }
