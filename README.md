@@ -15,7 +15,7 @@ Digiteam is an attendance application along with daily reports for OPD workers i
 Clone the project:
 
 ```bash
-$ git clone https://github.com/jabardigitalservice/groupware-whitelabel-api.git
+$ git clone -b development https://github.com/jabardigitalservice/groupware-whitelabel-api.git
 $ cd groupware-whitelabel-api
 $ cp .env.example .env
 ```
