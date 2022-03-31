@@ -3,6 +3,8 @@ services:
   groupware-whitelabel-postgres:
     image: postgres:14
     container_name: '${APP_NAME}_POSTGRES'
+    ports:
+      - "5430:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -17,7 +19,7 @@ services:
     image: adminer
     container_name: '${APP_NAME}_ADMINER'
     ports:
-      - '8081:8080'
+      - '8087:8080'
     networks:
       - groupware-whitelabel-service
 
@@ -33,7 +35,7 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_HOST: groupware-whitelabel-postgres
+      POSTGRES_HOST: host.docker.internal # for mac user reference (https://stackoverflow.com/questions/33357567/econnrefused-for-postgres-on-nodejs-with-dockers)
     ports:
       - 3000:3000
     depends_on:
@@ -46,3 +48,7 @@ networks:
 
 volumes:
   pg_data:
+
+
+  # Notes if any errors occur during the build process, you can use the following documentation to troubleshoot:
+  # error bcrypt : https://stackoverflow.com/questions/59470406/how-to-solve-could-not-find-any-python-installation-to-use-with-docker-node-al

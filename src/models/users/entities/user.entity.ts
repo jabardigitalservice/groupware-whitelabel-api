@@ -8,7 +8,7 @@ import {
   OneToMany,
   BeforeInsert,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { UserProfile } from '../../user-profiles/entities/user-profile.entity';
 import { UserSocialAccount } from '../../user-social-accounts/entities/user-social-account.entity';
 import { UserToken } from './user-token.entity';
