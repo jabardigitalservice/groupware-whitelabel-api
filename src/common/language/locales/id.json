@@ -33,6 +33,7 @@
 	"forgotPassword.request.failed": "Gagal mengirim email lupa kata sandi",
 	"auth.requestForgotPassword.token.expired": "Link reset password telah kedaluwarsa.",
 	"forgotPassword.request.success": "Link reset password berhasil dikirim ke email, segera check email dan klik tombol sebelum link expired!",
-
-	"auth.requestForgotPassword.verify.message": "Verifikasi link berhasil!"
+	"auth.requestForgotPassword.verify.message": "Verifikasi link berhasil!",
+	"auth.resetPassword.success": "Password berhasil diubah!",
+	"auth.resetPassword.failed": "Gagal mengubah password!"
 }

@@ -1,3 +1,5 @@
+import { InternalServerErrorException } from '@nestjs/common';
+import { User } from '@sentry/node';
 import { EntityRepository, Repository } from 'typeorm';
 import { UpdateRefreshTokenDto } from '../dto/update-refresh-token.dto';
 import { UserToken } from '../entities/user-token.entity';
@@ -14,5 +16,13 @@ export class UserTokenRepository extends Repository<UserToken> {
       { token: oldRefreshToken, tokenType: Token.REFRESH },
       { token: refreshToken, tokenType: Token.REFRESH, expiredTime },
     );
+  }
+
+  async deleteForgotPasswordToken(user: User): Promise<void> {
+    try {
+      await this.delete({ user, tokenType: Token.FORGOT_PASSWORD });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
