@@ -18,6 +18,7 @@ import { GetUser } from '../common/decorators/get-user.decorator';
 import lang from '../common/language/configuration';
 import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
 import { VerifyForgotPasswordTokenDto } from './dto/verify-forgot-password-token.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('/auth/users')
 export class AuthController {
@@ -129,6 +130,20 @@ export class AuthController {
       data: {
         is_verify: isVerify,
       },
+    });
+  }
+
+  @Version('1')
+  @Post('/reset-password')
+  async resetPassword(
+    @Body() resetPasswordDto: ResetPasswordDto,
+    @Res() response,
+  ): Promise<any> {
+    await this.authService.resetPassword(resetPasswordDto);
+
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: lang.__('auth.resetPassword.success'),
     });
   }
 }

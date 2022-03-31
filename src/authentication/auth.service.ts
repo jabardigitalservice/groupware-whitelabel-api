@@ -24,6 +24,7 @@ import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
 import { MailService } from 'src/providers/mail/mail.service';
 import * as moment from 'moment';
 import { VerifyForgotPasswordTokenDto } from './dto/verify-forgot-password-token.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 @Injectable()
 export class AuthService {
   oauth2Client: Auth.OAuth2Client;
@@ -388,5 +389,31 @@ export class AuthService {
       throw new BadRequestException(lang.__('auth.active.failed'));
 
     return true;
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<any> {
+    const { token, new_password } = resetPasswordDto;
+
+    const verifyForgotPasswordToken = await this.verifyForgotPasswordToken(
+      token,
+    );
+    if (!verifyForgotPasswordToken)
+      throw new BadRequestException(lang.__('auth.resetPassword.failed'));
+
+    const user = await this.authRepository.findById(
+      verifyForgotPasswordToken.identifier,
+    );
+
+    const passwordBcyrpt = await bcrypt.hash(new_password, 10);
+    const changePassword = await this.authRepository.changePassword(
+      user.id,
+      passwordBcyrpt,
+    );
+
+    if (changePassword.affected < 1) {
+      throw new BadRequestException(lang.__('auth.resetPassword.failed'));
+    } else {
+      await this.userTokenRepository.deleteForgotPasswordToken(user);
+    }
   }
 }

@@ -19,4 +19,12 @@ export class AuthRepository extends Repository<User> {
       throw new InternalServerErrorException(error.message);
     }
   }
+
+  async changePassword(id: string, password: string): Promise<any> {
+    try {
+      return this.update(id, { password });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
 }
