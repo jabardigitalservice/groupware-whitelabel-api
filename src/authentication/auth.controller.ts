@@ -17,6 +17,7 @@ import { SignInDto } from './dto/sign-in.dto';
 import { GetUser } from '../common/decorators/get-user.decorator';
 import lang from '../common/language/configuration';
 import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
+import { VerifyForgotPasswordTokenDto } from './dto/verify-forgot-password-token.dto';
 
 @Controller('/auth/users')
 export class AuthController {
@@ -109,6 +110,25 @@ export class AuthController {
       statusCode: HttpStatus.OK,
       message: lang.__('forgotPassword.request.success'),
       data,
+    });
+  }
+
+  @Version('1')
+  @Post('/forgot-password/verify')
+  async verifyLinkForgotPassword(
+    @Body() verifyForgotPasswordTokenDto: VerifyForgotPasswordTokenDto,
+    @Res() response,
+  ): Promise<any> {
+    const isVerify = await this.authService.verifyLinkForgotPassword(
+      verifyForgotPasswordTokenDto,
+    );
+
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: lang.__('auth.requestForgotPassword.verify.message'),
+      data: {
+        is_verify: isVerify,
+      },
     });
   }
 }
