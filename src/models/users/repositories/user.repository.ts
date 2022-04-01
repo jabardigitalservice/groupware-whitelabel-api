@@ -37,4 +37,18 @@ export class UserRepository extends Repository<User> {
       throw new InternalServerErrorException(error.message);
     }
   }
+
+  async getUserById(id: string): Promise<User> {
+    try {
+      const query = this.createQueryBuilder('user')
+        .select(['user.id AS id', 'user.name AS name'])
+        .where('user.deleted_at IS NULL')
+        .andWhere('user.is_active IS TRUE')
+        .andWhere('user.id = :id', { id });
+
+      return await query.getRawOne();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
 }
