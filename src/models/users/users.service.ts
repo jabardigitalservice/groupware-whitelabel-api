@@ -14,4 +14,8 @@ export class UsersService {
   getUsers(getUsersFilterDto: GetUsersFilterDto): Promise<User[]> {
     return this.userRepository.getUsers(getUsersFilterDto);
   }
+
+  getUserById(id: string): Promise<User> {
+    return this.userRepository.getUserById(id);
+  }
 }
