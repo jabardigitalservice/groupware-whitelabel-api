@@ -43,6 +43,7 @@ export class UserRepository extends Repository<User> {
       const query = this.createQueryBuilder('user')
         .select(['user.id AS id', 'user.name AS name'])
         .where('user.deleted_at IS NULL')
+        .andWhere('user.is_active IS TRUE')
         .andWhere('user.id = :id', { id });
 
       return await query.getRawOne();
