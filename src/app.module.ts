@@ -17,6 +17,7 @@ import { PostgresConfigService } from './config/database/postgres/config.service
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduledAttendancesAutoCheckoutModule } from './cron/attendances/scheduled-auto-checkout.module';
 import { MailModule } from './providers/mail/mail.module';
+import { JobTitlesModule } from './models/job-titles/job-titles.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { MailModule } from './providers/mail/mail.module';
     AttendancesModule,
     ScheduledAttendancesAutoCheckoutModule,
     MailModule,
+    JobTitlesModule,
   ],
   providers: [
     ConfigService,
