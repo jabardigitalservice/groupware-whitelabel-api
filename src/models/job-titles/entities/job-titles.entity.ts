@@ -1,9 +1,11 @@
+import { MainDuty } from '../../main_duties/entities/main_duties.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({
@@ -18,6 +20,9 @@ export class JobTitle {
 
   @Column({ type: 'text', nullable: true })
   public description: string;
+
+  @OneToMany(() => MainDuty, (mainDuty) => mainDuty.jobTitle)
+  public mainDuties: MainDuty[];
 
   @CreateDateColumn({
     type: 'timestamp',
