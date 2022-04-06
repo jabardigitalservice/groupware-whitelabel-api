@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { UserProfile } from '../../user-profiles/entities/user-profile.entity';
 
 @Entity({
   name: 'job_titles',
@@ -23,6 +24,9 @@ export class JobTitle {
 
   @OneToMany(() => MainDuty, (mainDuty) => mainDuty.jobTitle)
   public mainDuties: MainDuty[];
+
+  @OneToMany(() => UserProfile, (userProfile) => userProfile.jobTitle)
+  public userProfiles: UserProfile[];
 
   @CreateDateColumn({
     type: 'timestamp',
