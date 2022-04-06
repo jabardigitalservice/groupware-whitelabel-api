@@ -19,6 +19,7 @@ import { ScheduledAttendancesAutoCheckoutModule } from './cron/attendances/sched
 import { MailModule } from './providers/mail/mail.module';
 import { DaysOffModule } from './models/days-off/days-off.module';
 import { DaysOffService } from './models/days-off/days-off.service';
+import { JobTitlesModule } from './models/job-titles/job-titles.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { DaysOffService } from './models/days-off/days-off.service';
     ScheduledAttendancesAutoCheckoutModule,
     MailModule,
     DaysOffModule,
+    JobTitlesModule,
   ],
   providers: [
     ConfigService,
