@@ -19,7 +19,7 @@ export const PostgresConnectionOptions: TypeOrmModuleOptions = {
 
 export const OrmConfig = {
   ...PostgresConnectionOptions,
-  migrations: ['src/database/migrations/*.{js,ts}'],
+  migrations: ['dist/database/migrations/*.js'],
   cli: {
     migrationsDir: 'src/database/migrations',
   },
