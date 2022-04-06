@@ -21,7 +21,7 @@ import { UserToken } from '../models/users/entities/user-token.entity';
 import lang from '../common/language/configuration';
 import { AppConfigService } from '../config/app/config.service';
 import { RequestForgotPasswordDto } from './dto/request-forgot-password.dto';
-import { MailService } from 'src/providers/mail/mail.service';
+import { MailService } from '../providers/mail/mail.service';
 import * as moment from 'moment';
 import { VerifyForgotPasswordTokenDto } from './dto/verify-forgot-password-token.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';

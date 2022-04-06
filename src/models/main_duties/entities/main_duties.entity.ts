@@ -1,4 +1,4 @@
-import { JobTitle } from 'src/models/job-titles/entities/job-titles.entity';
+import { JobTitle } from '../../job-titles/entities/job-titles.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
