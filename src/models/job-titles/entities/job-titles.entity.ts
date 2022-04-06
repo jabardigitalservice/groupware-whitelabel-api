@@ -1,10 +1,13 @@
+import { MainDuty } from '../../main_duties/entities/main_duties.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { UserProfile } from '../../user-profiles/entities/user-profile.entity';
 
 @Entity({
   name: 'job_titles',
@@ -18,6 +21,12 @@ export class JobTitle {
 
   @Column({ type: 'text', nullable: true })
   public description: string;
+
+  @OneToMany(() => MainDuty, (mainDuty) => mainDuty.jobTitle)
+  public mainDuties: MainDuty[];
+
+  @OneToMany(() => UserProfile, (userProfile) => userProfile.jobTitle)
+  public userProfiles: UserProfile[];
 
   @CreateDateColumn({
     type: 'timestamp',

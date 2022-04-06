@@ -4,8 +4,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { MailService } from './mail.service';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppConfigModule } from 'src/config/app/config.module';
-import { AppConfigService } from 'src/config/app/config.service';
+import { AppConfigModule } from '../../config/app/config.module';
+import { AppConfigService } from '../../config/app/config.service';
 
 @Module({
   imports: [

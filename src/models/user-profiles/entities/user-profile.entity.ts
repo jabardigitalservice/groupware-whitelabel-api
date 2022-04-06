@@ -1,9 +1,11 @@
+import { JobTitle } from '../../job-titles/entities/job-titles.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
@@ -15,6 +17,13 @@ export class UserProfile {
   @OneToOne(() => User, (user) => user.userProfile)
   @JoinColumn({ name: 'user_id' })
   public user: User;
+
+  @Column({ type: 'uuid', nullable: false, name: 'job_title_id' })
+  public jobTitleId!: string;
+
+  @ManyToOne(() => JobTitle, (jobTitle) => jobTitle.mainDuties)
+  @JoinColumn({ name: 'job_title_id' })
+  public jobTitle: JobTitle;
 
   @Column({ type: 'date', name: 'birth_date', nullable: true })
   public birthDate: Date;
