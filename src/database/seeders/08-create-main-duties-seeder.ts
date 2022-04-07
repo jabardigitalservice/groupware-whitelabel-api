@@ -11,8 +11,6 @@ export default class CreateMainDuties implements Seeder {
       .execute();
 
     for (const jobTitle of jobTitles) {
-      console.log(jobTitle);
-
       for (let i = 0; i < Math.floor(Math.random() * 3) + 1; i++) {
         await createQueryBuilder()
           .insert()
