@@ -1,7 +1,7 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import { User } from '@sentry/types';
 import { EntityRepository, Repository } from 'typeorm';
-import { MainDuty } from './entities/main_duties.entity';
+import { MainDuty } from './entities/main-duties.entity';
 
 @EntityRepository(MainDuty)
 export class MainDutiesRepository extends Repository<MainDuty> {

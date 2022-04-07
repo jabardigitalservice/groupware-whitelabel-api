@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@sentry/types';
-import { MainDuty } from './entities/main_duties.entity';
-import { MainDutiesRepository } from './main_duties.repository';
+import { MainDuty } from './entities/main-duties.entity';
+import { MainDutiesRepository } from './main-duties.repository';
 
 @Injectable()
 export class MainDutiesService {

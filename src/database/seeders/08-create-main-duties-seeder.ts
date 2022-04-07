@@ -1,7 +1,7 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { createQueryBuilder } from 'typeorm';
 import { JobTitle } from '../../models/job-titles/entities/job-titles.entity';
-import { MainDuty } from '../../models/main_duties/entities/main_duties.entity';
+import { MainDuty } from '../../models/main-duties/entities/main-duties.entity';
 import { faker } from '@faker-js/faker';
 
 export default class CreateMainDuties implements Seeder {

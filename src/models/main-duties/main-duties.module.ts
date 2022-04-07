@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MainDutiesRepository } from './main_duties.repository';
-import { MainDutiesService } from './main_duties.service';
-import { MainDutiesController } from './main_duties.controller';
+import { MainDutiesRepository } from './main-duties.repository';
+import { MainDutiesService } from './main-duties.service';
+import { MainDutiesController } from './main-duties.controller';
 import { AuthModule } from '../../authentication/auth.module';
 
 @Module({

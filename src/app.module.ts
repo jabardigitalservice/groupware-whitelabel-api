@@ -18,7 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduledAttendancesAutoCheckoutModule } from './cron/attendances/scheduled-auto-checkout.module';
 import { MailModule } from './providers/mail/mail.module';
 import { JobTitlesModule } from './models/job-titles/job-titles.module';
-import { MainDutiesModule } from './models/main_duties/main_duties.module';
+import { MainDutiesModule } from './models/main-duties/main-duties.module';
 
 @Module({
   imports: [

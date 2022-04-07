@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUserJobTitleId } from '../../common/decorators/get-user-job-title-id.decorator';
 import lang from '../../common/language/configuration';
 import { User } from '../users/entities/user.entity';
-import { MainDutiesService } from './main_duties.service';
+import { MainDutiesService } from './main-duties.service';
 
 @Controller('main-duties')
 export class MainDutiesController {

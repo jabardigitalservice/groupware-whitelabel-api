@@ -1,4 +1,4 @@
-import { MainDuty } from '../../main_duties/entities/main_duties.entity';
+import { MainDuty } from '../../main-duties/entities/main-duties.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
