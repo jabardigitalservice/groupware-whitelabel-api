@@ -23,6 +23,9 @@
 	"projects.getAll.success": "Berhasil mendapatkan list project.",
 	
 	"users.getAll.success": "Berhasil mendapatkan list user.",
+	"users.changePassword.success": "Kata sandi Anda berhasil di ubah. Mohon gunakan kata sandi Anda yang baru untuk log in.",
+	"users.changePassword.currentPassword.invalid": "Kata sandi yang Anda masukkkan salah.",
+	"users.changePassword.newPassword.invalid": "Kata sandi baru tidak boleh sama dengan kata sandi lama.",
 
 	"common.error.internalServerError": "Terdapat kesalahan di server.",
 
