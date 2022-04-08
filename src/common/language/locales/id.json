@@ -35,5 +35,7 @@
 	"forgotPassword.request.success": "Link reset password berhasil dikirim ke email, segera check email dan klik tombol sebelum link expired!",
 	"auth.requestForgotPassword.verify.message": "Verifikasi link berhasil!",
 	"auth.resetPassword.success": "Password berhasil diubah!",
-	"auth.resetPassword.failed": "Gagal mengubah password!"
+	"auth.resetPassword.failed": "Gagal mengubah password!",
+
+	"mainDuties.getMainDutyByJobTitleId.success": "Berhasil mengambil tupoksi jabatan berdasarkan jabatan."
 }

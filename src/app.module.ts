@@ -20,7 +20,7 @@ import { MailModule } from './providers/mail/mail.module';
 import { DaysOffModule } from './models/days-off/days-off.module';
 import { DaysOffService } from './models/days-off/days-off.service';
 import { JobTitlesModule } from './models/job-titles/job-titles.module';
-import { MainDutiesModule } from './models/main_duties/main_duties.module';
+import { MainDutiesModule } from './models/main-duties/main-duties.module';
 
 @Module({
   imports: [
