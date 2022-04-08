@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { Match } from 'src/common/decorators/match.decorator';
 
 export class ChangePasswordDto {
