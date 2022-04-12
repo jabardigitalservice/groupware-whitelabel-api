@@ -28,6 +28,8 @@
 	"users.changePassword.newPassword.invalid": "Kata sandi baru tidak boleh sama dengan kata sandi lama.",
 
 	"common.error.internalServerError": "Terdapat kesalahan di server.",
+	"common.image.file.invalid": "File harus diisi dan hanya file gambar yang diizinkan.",
+	"common.image.file.upload.error": "Gagal mengunggah file.",
 
 	"mail.forgotPassword.subject": "Reset Password Link",
 
