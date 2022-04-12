@@ -54,7 +54,7 @@ export class DaysOffController {
 
     return response.status(HttpStatus.CREATED).send({
       statusCode: HttpStatus.CREATED,
-      message: lang.__('attendances.checkin.success'),
+      message: lang.__('daysoff.create.success'),
       data,
     });
   }
