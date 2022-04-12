@@ -114,7 +114,7 @@ export class DaysOffService {
     user: User,
     startDate: Date,
     endDate: Date,
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     const attendance = await this.attendancesRepository.isAttendanceExist(
       user,
       startDate,

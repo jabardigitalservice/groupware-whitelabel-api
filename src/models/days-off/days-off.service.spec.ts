@@ -93,11 +93,9 @@ const mockImage: Express.Multer.File = {
 };
 
 describe('DaysOffService', () => {
-  let connection: Connection;
   let minioProviderService: MinioProviderService;
   let daysOffService: DaysOffService;
   let daysOffRepository: any;
-  let attendancesService: AttendancesService;
   let attendancesRepository: any;
 
   beforeEach(async () => {
@@ -133,11 +131,9 @@ describe('DaysOffService', () => {
       ],
     }).compile();
 
-    connection = await module.get(Connection);
     minioProviderService = await module.get(MinioProviderService);
     daysOffService = await module.get(DaysOffService);
     daysOffRepository = await module.get(DaysOffRepository);
-    attendancesService = await module.get(AttendancesService);
     attendancesRepository = await module.get(AttendancesRepository);
   });
 
