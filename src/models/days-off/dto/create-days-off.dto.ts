@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { IsBefore } from '../../../common/validations/IsBefore';
 import { IsArrayEnum } from '../../../common/validations/IsArrayEnum';
+import { permitAcknowledged } from '../enums/permit-acknowledged.enums';
 
 export class CreateDaysOffDto {
   constructor(startDate: Date, endDate: Date) {
@@ -35,7 +36,7 @@ export class CreateDaysOffDto {
 
   @IsNotEmpty()
   @IsString()
-  @Validate(IsArrayEnum)
+  @Validate(IsArrayEnum, [permitAcknowledged])
   permit_acknowledged: string;
 
   @IsNotEmpty()

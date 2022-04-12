@@ -86,19 +86,19 @@ export class DaysOffService {
         date.isSameOrBefore(endDate);
         date.add(1, 'days')
       ) {
-        // Skip if day is weekend
-        if (date.day() === 0 || date.day() === 6) continue;
+        // not sunday and saturday
+        if (date.day() !== 0 && date.day() !== 6) {
+          const attendance = new Attendance();
 
-        const attendance = new Attendance();
+          attendance.startDate = moment(date).toDate();
+          attendance.endDate = moment(date).toDate();
+          attendance.officeHours = 0;
+          attendance.location = '-';
+          attendance.note = permitsType;
+          attendance.user = user;
 
-        attendance.startDate = moment(date).toDate();
-        attendance.endDate = moment(date).toDate();
-        attendance.officeHours = 0;
-        attendance.location = '-';
-        attendance.note = permitsType;
-        attendance.user = user;
-
-        await queryRunner.manager.save(attendance);
+          await queryRunner.manager.save(attendance);
+        }
       }
 
       await queryRunner.commitTransaction();

@@ -3,17 +3,18 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { permitAcknowledged } from '../../models/days-off/enums/permit-acknowledged.enums';
 
 @ValidatorConstraint({ name: 'isArrayEnum', async: false })
 export class IsArrayEnum implements ValidatorConstraintInterface {
-  validate(propertyValue: string) {
+  validate(propertyValue: string, args: ValidationArguments) {
     const enumValues = propertyValue.split(',');
-
     let isValid = true;
-    enumValues.forEach((value) => {
-      isValid = (<any>Object).values(permitAcknowledged).includes(value);
-    });
+
+    for (const value of enumValues) {
+      isValid = (<any>Object).values(args.constraints[0]).includes(value);
+      if (!isValid) return isValid;
+    }
+
     return isValid;
   }
 
