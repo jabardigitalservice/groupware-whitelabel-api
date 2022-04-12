@@ -21,6 +21,8 @@ import { DaysOffModule } from './models/days-off/days-off.module';
 import { DaysOffService } from './models/days-off/days-off.service';
 import { JobTitlesModule } from './models/job-titles/job-titles.module';
 import { MainDutiesModule } from './models/main-duties/main-duties.module';
+import { MinioProviderModule } from './providers/storage/minio/minio.module';
+import { MinioConfigService } from './config/storage/minio-client/config.service';
 
 @Module({
   imports: [
@@ -39,11 +41,13 @@ import { MainDutiesModule } from './models/main-duties/main-duties.module';
     DaysOffModule,
     JobTitlesModule,
     MainDutiesModule,
+    MinioProviderModule,
   ],
   providers: [
     ConfigService,
     AppConfigService,
     PostgresConfigService,
+    MinioConfigService,
     {
       provide: APP_INTERCEPTOR,
       useClass: SentryInterceptor,
@@ -52,7 +56,6 @@ import { MainDutiesModule } from './models/main-duties/main-duties.module';
       provide: APP_FILTER,
       useClass: HttpErrorFilter,
     },
-    DaysOffService,
   ],
 })
 export class AppModule {}
