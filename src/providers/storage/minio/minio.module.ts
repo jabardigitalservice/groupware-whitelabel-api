@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MinioModule } from 'nestjs-minio-client';
-import { AppConfigModule } from 'src/config/app/config.module';
-import { AppConfigService } from 'src/config/app/config.service';
-import { MinioConfigModule } from 'src/config/storage/minio-client/config.module';
-import { MinioConfigService } from 'src/config/storage/minio-client/config.service';
+import { AppConfigModule } from '../../../config/app/config.module';
+import { AppConfigService } from '../../../config/app/config.service';
+import { MinioConfigModule } from '../../../config/storage/minio-client/config.module';
+import { MinioConfigService } from '../../../config/storage/minio-client/config.service';
 import { MinioProviderService } from './minio.service';
 
 @Module({

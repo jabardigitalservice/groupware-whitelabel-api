@@ -11,7 +11,7 @@ import {
   Version,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from '../../common/decorators/get-user.decorator';
 import lang from '../../common/language/configuration';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { GetUsersFilterDto } from './dto/get-users-filter.dto';
