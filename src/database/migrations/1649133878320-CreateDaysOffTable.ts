@@ -26,7 +26,6 @@ export class CreateDaysOffTable1649133878320 implements MigrationInterface {
             name: 'user_id',
             type: 'uuid',
             isNullable: false,
-            isUnique: true,
           },
           {
             name: 'start_date',
@@ -39,7 +38,7 @@ export class CreateDaysOffTable1649133878320 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'permit_type',
+            name: 'permits_type',
             type: 'varchar',
             length: '20',
             isNullable: false,
@@ -54,19 +53,19 @@ export class CreateDaysOffTable1649133878320 implements MigrationInterface {
           {
             name: 'note',
             type: 'text',
-            isNullable: true,
+            isNullable: false,
           },
           {
             name: 'file_path',
             type: 'varchar',
             length: '255',
-            isNullable: true,
+            isNullable: false,
           },
           {
             name: 'file_url',
             type: 'varchar',
             length: '255',
-            isNullable: true,
+            isNullable: false,
           },
           {
             name: 'created_at',
