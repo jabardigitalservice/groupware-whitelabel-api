@@ -28,7 +28,7 @@ export class DaysOffService {
     user: User,
     createDaysOffDto: CreateDaysOffDto,
     image: Express.Multer.File,
-  ): Promise<any> {
+  ): Promise<DaysOff> {
     const { start_date, end_date, permits_type, note } = createDaysOffDto;
 
     let permitAcknowledged: any = createDaysOffDto.permit_acknowledged;
