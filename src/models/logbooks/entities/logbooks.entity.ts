@@ -76,14 +76,6 @@ export class Logbook {
     type: 'varchar',
     length: 255,
     nullable: false,
-    name: 'evidence_task_url',
-  })
-  public evidenceTaskUrl!: string;
-
-  @Column({
-    type: 'varchar',
-    length: 255,
-    nullable: false,
     name: 'evidence_task_path',
   })
   public evidenceTaskPath!: string;

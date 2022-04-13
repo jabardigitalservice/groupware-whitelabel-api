@@ -6,6 +6,7 @@ import { UserTokenRepository } from '../models/users/repositories/user-token.rep
 import { UnauthorizedException } from '@nestjs/common';
 import { AppConfigService } from '../config/app/config.service';
 import { ConfigService } from '@nestjs/config';
+import { MailService } from '../providers/mail/mail.service';
 
 const someUuid = 'some-uuid';
 const someValidJwtToken = 'some-valid-jwt-token';
@@ -16,6 +17,10 @@ const mockAuthRepository = () => ({
 });
 
 const mockUserTokenRepository = () => ({});
+
+const mockMailService = () => ({
+  sendForgotPassword: jest.fn(),
+});
 
 const mockJwtService = {
   sign: jest.fn(),
@@ -29,6 +34,7 @@ const mockJwtModule = {
 };
 
 describe('AuthService', () => {
+  let mailProviderService: MailService;
   let authService: AuthService;
   let jwtService: any;
 
@@ -40,6 +46,16 @@ describe('AuthService', () => {
         AppConfigService,
         JwtService,
         JwtModule,
+        {
+          provide: MailService,
+          useFactory: mockMailService,
+        },
+        // {
+        //   provide: MinioService,
+        //   useValue: {
+        //     putObject: jest.fn(),
+        //   },
+        // },
         { provide: JwtService, useValue: mockJwtService },
         { provide: JwtModule, useValue: mockJwtModule },
         { provide: AuthRepository, useFactory: mockAuthRepository },
@@ -48,6 +64,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
+    mailProviderService = await module.get(MailService);
     authService = await module.get(AuthService);
     jwtService = await module.get(JwtService);
   });
