@@ -1,9 +1,11 @@
+import { Logbook } from '../../logbooks/entities/logbooks.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -16,6 +18,9 @@ export class Projects {
 
   @Column({ type: 'text', nullable: true })
   public description: string;
+
+  @OneToMany(() => Logbook, (logbook) => logbook.project)
+  public logbooks: Logbook[];
 
   @CreateDateColumn({
     type: 'timestamp',

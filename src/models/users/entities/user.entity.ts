@@ -13,6 +13,7 @@ import { UserProfile } from '../../user-profiles/entities/user-profile.entity';
 import { UserSocialAccount } from '../../user-social-accounts/entities/user-social-account.entity';
 import { UserToken } from './user-token.entity';
 import { Attendance } from '../../attendances/entities/attendance.entity';
+import { Logbook } from '../../logbooks/entities/logbooks.entity';
 import { DaysOff } from '../../days-off/entities/days-off.entity';
 
 @Entity('users')
@@ -35,6 +36,9 @@ export class User {
 
   @Column({ type: 'boolean', default: true, name: 'is_active' })
   public isActive: boolean;
+
+  @OneToMany(() => Logbook, (logbook) => logbook.project)
+  public logbooks: Logbook[];
 
   @CreateDateColumn({
     type: 'timestamp',

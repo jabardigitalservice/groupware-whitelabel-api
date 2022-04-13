@@ -7,7 +7,9 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
+import { Logbook } from '../../logbooks/entities/logbooks.entity';
 
 @Entity({
   name: 'main_duties',
@@ -31,6 +33,9 @@ export class MainDuty {
 
   @Column({ type: 'integer', name: 'occupation_target', nullable: true })
   public occupationTarget: number;
+
+  @OneToMany(() => Logbook, (logbook) => logbook.project)
+  public logbooks: Logbook[];
 
   @CreateDateColumn({
     type: 'timestamp',
