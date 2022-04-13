@@ -1,3 +1,5 @@
+import { PermitsType } from '../../../models/days-off/enums/permits-type.enums';
+
 export interface AttendanceForCalculateOfficeHours {
   startDate: Date;
   endDate: Date;
@@ -13,6 +15,10 @@ export interface ResponseAttendance {
 export interface ResponseIsCheckedIn {
   isCheckedIn: boolean;
   date?: Date;
+  isDaysOff?: boolean;
+  permitsType?: PermitsType;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ResponseIsCheckedOut {

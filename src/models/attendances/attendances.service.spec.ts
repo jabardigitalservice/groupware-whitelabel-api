@@ -5,6 +5,9 @@ import { User } from '../users/entities/user.entity';
 import { Mood } from './enums/mood.enums';
 import { AppConfigService } from '../../config/app/config.service';
 import { ConfigService } from '@nestjs/config';
+import { DaysOffRepository } from '../days-off/days-off.repository';
+import * as moment from 'moment';
+import { PermitsType } from '../days-off/enums/permits-type.enums';
 
 const mockAttendancesRepository = () => ({
   findByNotCheckedOut: jest.fn(),
@@ -12,6 +15,11 @@ const mockAttendancesRepository = () => ({
   isCheckedIn: jest.fn(),
   isCheckedOut: jest.fn(),
   save: jest.fn(),
+});
+
+const mockDaysOffRepository = () => ({
+  save: jest.fn(),
+  findByUserAndToday: jest.fn(),
 });
 
 const mockUser: User = {
@@ -33,11 +41,37 @@ const mockUser: User = {
 
 const mockAttendance = {
   id: 'someId',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: moment(),
+  endDate: moment(),
   location: 'someLocation',
   mood: Mood.EXCELLENT,
   note: 'someNote',
+  user: {
+    id: 'someId',
+  },
+};
+
+const mockDaysOffAttendance = {
+  id: 'someId',
+  startDate: moment().add(-1, 'days').format('YYYY-MM-DD'),
+  endDate: moment().format('YYYY-MM-DD'),
+  officeHours: 0,
+  location: '-',
+  mood: null,
+  note: PermitsType.Sakit,
+  user: {
+    id: 'someId',
+  },
+};
+
+const mockDaysOff = {
+  id: 'someId',
+  startDate: moment().add(-1, 'days').toDate(),
+  endDate: moment().toDate(),
+  permitsType: PermitsType.Sakit,
+  permitAcknowledged: ['somePermitAcknowledged'],
+  note: 'someNote',
+  filePath: 'someFilePath',
   user: {
     id: 'someId',
   },
@@ -60,6 +94,7 @@ const mockAtendanceForCheckOut = {
 describe('AttendancesService', () => {
   let attendancesService: AttendancesService;
   let attendancesRepository: any;
+  let daysOffRepository: any;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -71,11 +106,16 @@ describe('AttendancesService', () => {
           provide: AttendancesRepository,
           useFactory: mockAttendancesRepository,
         },
+        {
+          provide: DaysOffRepository,
+          useFactory: mockDaysOffRepository,
+        },
       ],
     }).compile();
 
     attendancesService = await module.get(AttendancesService);
     attendancesRepository = await module.get(AttendancesRepository);
+    daysOffRepository = await module.get(DaysOffRepository);
   });
 
   describe('checkIn', () => {
@@ -237,6 +277,21 @@ describe('AttendancesService', () => {
       const result = await attendancesService.isCheckedIn(mockUser);
       expect(result.isCheckedIn).toEqual(true);
       expect(result.date).toEqual(mockAttendance.startDate);
+      expect(result.isDaysOff).toEqual(false);
+    });
+
+    it('should return true on isCheckedIn and isDaysOff if attendance is checked in and is days off', async () => {
+      await attendancesRepository.isCheckedIn.mockResolvedValue(
+        mockDaysOffAttendance,
+      );
+      await daysOffRepository.findByUserAndToday.mockResolvedValue(mockDaysOff);
+
+      const result = await attendancesService.isCheckedIn(mockUser);
+      expect(result.isCheckedIn).toEqual(true);
+      expect(result.isDaysOff).toEqual(true);
+      expect(result.permitsType).toEqual(mockDaysOff.permitsType);
+      expect(result.startDate).toEqual(mockDaysOffAttendance.startDate);
+      expect(result.endDate).toEqual(mockDaysOffAttendance.endDate);
     });
 
     it('should return false if attendance is not checked in', async () => {

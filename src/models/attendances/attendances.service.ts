@@ -5,7 +5,6 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import lang from '../../common/language/configuration';
 import { User } from '../users/entities/user.entity';
 import { AttendancesRepository } from './attendances.repository';
@@ -19,12 +18,14 @@ import {
 } from './interfaces/attendance.interface';
 import * as moment from 'moment';
 import { AppConfigService } from '../../config/app/config.service';
+import { PermitsType } from '../days-off/enums/permits-type.enums';
+import { DaysOffRepository } from '../days-off/days-off.repository';
 
 @Injectable()
 export class AttendancesService {
   constructor(
-    @InjectRepository(AttendancesRepository)
     private attendancesRepository: AttendancesRepository,
+    private daysOffRepository: DaysOffRepository,
     private appConfigService: AppConfigService,
   ) {}
 
@@ -41,15 +42,15 @@ export class AttendancesService {
         lang.__('attendances.already.checked.in.for.today'),
       );
 
+    const attendance = new Attendance();
+
+    attendance.startDate = moment(date).toDate();
+    attendance.location = location;
+    attendance.mood = mood;
+    attendance.note = note;
+    attendance.user = user;
+
     try {
-      const attendance = new Attendance();
-
-      attendance.startDate = moment(date).toDate();
-      attendance.location = location;
-      attendance.mood = mood;
-      attendance.note = note;
-      attendance.user = user;
-
       await this.attendancesRepository.save(attendance);
       return attendance;
     } catch (error) {
@@ -75,11 +76,11 @@ export class AttendancesService {
         lang.__('attendances.already.checked.out.for.today'),
       );
 
-    try {
-      attendance.endDate = moment(date).toDate();
-      attendance.officeHours = await this.calculateOfficeHours(attendance);
-      attendance.updatedAt = currentDateTime;
+    attendance.endDate = moment(date).toDate();
+    attendance.officeHours = await this.calculateOfficeHours(attendance);
+    attendance.updatedAt = currentDateTime;
 
+    try {
       await this.attendancesRepository.save(attendance);
       return attendance;
     } catch (error) {
@@ -123,7 +124,31 @@ export class AttendancesService {
       isCheckedIn: Boolean(isCheckedIn),
     };
 
-    if (isCheckedIn) response.date = isCheckedIn.startDate;
+    if (isCheckedIn && isCheckedIn.officeHours !== 0) {
+      response.date = isCheckedIn.startDate;
+      response.isDaysOff = false;
+    }
+
+    if (isCheckedIn && isCheckedIn.officeHours === 0) {
+      response.isDaysOff = true;
+      response.permitsType = PermitsType[isCheckedIn.note];
+
+      const daysOff = await this.daysOffRepository.findByUserAndToday(
+        user,
+        moment(isCheckedIn.startDate).format('YYYY-MM-DD'),
+      );
+
+      if (!daysOff) {
+        response.startDate = null;
+        response.endDate = null;
+      }
+
+      if (daysOff) {
+        response.startDate = moment(daysOff.startDate).format('YYYY-MM-DD');
+        response.endDate = moment(daysOff.endDate).format('YYYY-MM-DD');
+      }
+    }
+
     return response;
   }
 
