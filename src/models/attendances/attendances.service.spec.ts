@@ -24,6 +24,7 @@ const mockUser: User = {
   updatedAt: null,
   deletedAt: null,
   attendances: [],
+  daysoff: [],
   isActive: false,
   userProfile: null,
   userSocialAccounts: [],

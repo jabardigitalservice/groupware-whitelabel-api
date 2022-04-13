@@ -59,4 +59,22 @@ export class AttendancesRepository extends Repository<Attendance> {
       throw new InternalServerErrorException(error.message);
     }
   }
+
+  async isAttendanceExist(
+    user: User,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Attendance> {
+    try {
+      const attendance = await this.createQueryBuilder('attendances')
+        .where('attendances.user_id = :user_id', { user_id: user.id })
+        .andWhere('attendances.start_date >= :startDate', { startDate })
+        .andWhere('attendances.end_date <= :endDate', { endDate })
+        .getOne();
+
+      return attendance;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
 }
