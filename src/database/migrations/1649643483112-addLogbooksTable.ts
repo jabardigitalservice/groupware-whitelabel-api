@@ -51,6 +51,12 @@ export class addLogbooksTable1649643483112 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'evidence_task_url',
+            type: 'varchar',
+            length: '255',
+            isNullable: false,
+          },
+          {
             name: 'evidence_task_path',
             type: 'varchar',
             length: '255',
