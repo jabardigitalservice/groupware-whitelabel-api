@@ -14,6 +14,7 @@ import { UserSocialAccount } from '../../user-social-accounts/entities/user-soci
 import { UserToken } from './user-token.entity';
 import { Attendance } from '../../attendances/entities/attendance.entity';
 import { Logbook } from '../../logbooks/entities/logbooks.entity';
+import { DaysOff } from '../../days-off/entities/days-off.entity';
 
 @Entity('users')
 export class User {
@@ -74,4 +75,7 @@ export class User {
 
   @OneToMany(() => Attendance, (attendance) => attendance.user)
   public attendances: Attendance[];
+
+  @OneToMany(() => DaysOff, (daysoff) => daysoff.user)
+  public daysoff: DaysOff[];
 }
