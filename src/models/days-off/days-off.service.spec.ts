@@ -65,7 +65,6 @@ const mockDaysOff = {
   permitAcknowledged: ['somePermitAcknowledged'],
   note: 'someNote',
   filePath: 'someFilePath',
-  fileUrl: 'someFileUrl',
   user: {
     id: 'someId',
   },
@@ -141,7 +140,6 @@ describe('DaysOffService', () => {
     it('should create a days off', async () => {
       (minioProviderService.upload as jest.Mock).mockReturnValue(
         Promise.resolve({
-          url: 'someUrl',
           path: 'somePath',
         }),
       );

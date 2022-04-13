@@ -60,7 +60,6 @@ export class DaysOffService {
       daysOff.permitAcknowledged = permitAcknowledged;
       daysOff.note = note;
       daysOff.filePath = uploaded_image.path;
-      daysOff.fileUrl = uploaded_image.url;
       daysOff.user = user;
       await this.daysOffRepository.save(daysOff);
 
