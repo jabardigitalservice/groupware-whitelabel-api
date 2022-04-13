@@ -64,14 +64,6 @@ export class DaysOff {
   })
   filePath: string;
 
-  @Column({
-    type: 'varchar',
-    name: 'file_url',
-    length: 255,
-    nullable: false,
-  })
-  fileUrl: string;
-
   @CreateDateColumn({
     type: 'timestamp',
     name: 'created_at',

@@ -62,12 +62,6 @@ export class CreateDaysOffTable1649133878320 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'file_url',
-            type: 'varchar',
-            length: '255',
-            isNullable: false,
-          },
-          {
             name: 'created_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP(6)',

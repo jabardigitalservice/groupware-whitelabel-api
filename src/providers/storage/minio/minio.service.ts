@@ -24,7 +24,6 @@ export class MinioProviderService {
       await this.minio.client.putObject(bucket, fileName, fileBuffer);
 
       return {
-        url: this.minioConfigService.url + '/' + fileName,
         path: fileName,
       };
     } catch (error) {
