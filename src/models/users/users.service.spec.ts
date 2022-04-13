@@ -6,11 +6,40 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { GetUserInterface } from '../../common/interfaces/get-user.interface';
 import lang from '../../common/language/configuration';
 import { BadRequestException } from '@nestjs/common';
+import { MinioProviderService } from '../../providers/storage/minio/minio.service';
+import { UserProfileRepository } from '../user-profiles/user-profile.repository';
+import { MinioConfigService } from '../../config/storage/minio-client/config.service';
+import { ConfigService } from '@nestjs/config';
+import { Readable } from 'stream';
+import { User } from './entities/user.entity';
+import { UserProfile } from '../user-profiles/entities/user-profile.entity';
 
 const mockUsersRepository = () => ({
   getUsers: jest.fn(),
   save: jest.fn(),
 });
+
+const mockMinioProviderService = () => ({
+  upload: jest.fn(),
+  delete: jest.fn(),
+});
+
+const mockUserProfileRepository = () => ({
+  save: jest.fn(),
+});
+
+const mockImage: Express.Multer.File = {
+  fieldname: 'file',
+  originalname: 'someFileName',
+  encoding: 'someEncoding',
+  mimetype: 'someMimeType',
+  destination: 'someDestination',
+  filename: 'someFileName',
+  path: 'somePath',
+  buffer: Buffer.from('someBuffer'),
+  size: 0,
+  stream: new Readable(),
+};
 
 const mockUsers = [
   {
@@ -25,7 +54,7 @@ const mockUsers = [
   },
 ];
 
-const mockUser = {
+const mockUser: User = {
   id: '6a1daa89-7be7-42fb-8d79-e3d4d2c78cda',
   name: 'Groupware White Label Administrator',
   email: 'groupware.whitelabel@gmail.com',
@@ -34,22 +63,56 @@ const mockUser = {
   createdAt: undefined,
   updatedAt: undefined,
   deletedAt: null,
+  userProfile: null,
+  hashPassword: jest.fn(),
+  logbooks: [],
+  userSocialAccounts: [],
+  userTokens: [],
+  attendances: [],
+  daysoff: [],
+};
+
+const mockUserProfile: UserProfile = {
+  id: '6a1daa89-7be7-42fb-8d79-e3d4d2c78cda',
+  user: null,
+  avatar: 'avatar.png',
+  jobTitleId: '',
+  jobTitle: null,
+  birthDate: undefined,
+  birthPlace: '',
+  gender: '',
+  employmentStatus: '',
+  isPns: false,
 };
 
 describe('UsersService', () => {
   let service: UsersService;
   let repository;
+  let minioProviderService: MinioProviderService;
+  let userProfileRepository: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
+        ConfigService,
+        MinioConfigService,
         { provide: UserRepository, useFactory: mockUsersRepository },
+        {
+          provide: MinioProviderService,
+          useFactory: mockMinioProviderService,
+        },
+        {
+          provide: UserProfileRepository,
+          useFactory: mockUserProfileRepository,
+        },
       ],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
     repository = module.get<UserRepository>(UserRepository);
+    minioProviderService = await module.get(MinioProviderService);
+    userProfileRepository = await module.get(UserProfileRepository);
   });
 
   describe('getUsers', () => {
@@ -119,6 +182,61 @@ describe('UsersService', () => {
 
       const result = await service.changePassword(user, changePasswordDto);
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('uploadAvatar', () => {
+    it('should upload avatar', async () => {
+      const user = mockUser;
+      user.userProfile = mockUserProfile;
+
+      (minioProviderService.upload as jest.Mock).mockReturnValue(
+        Promise.resolve({
+          path: 'somePath',
+        }),
+      );
+
+      const result = await service.uploadAvatar(user, mockImage);
+      expect(result.avatar_path).toBe('somePath');
+    });
+
+    it('should throw an error when upload avatar failed', async () => {
+      const user = mockUser;
+      user.userProfile = mockUserProfile;
+
+      (minioProviderService.upload as jest.Mock).mockReturnValue(
+        Promise.reject(new Error('someError')),
+      );
+
+      await expect(
+        service.uploadAvatar(user, mockImage),
+      ).rejects.toThrowError();
+    });
+  });
+
+  describe('deleteAvatar', () => {
+    it('should delete avatar', async () => {
+      const user = mockUser;
+      user.userProfile = mockUserProfile;
+
+      (minioProviderService.delete as jest.Mock).mockReturnValue(
+        Promise.resolve(),
+      );
+
+      const result = await service.deleteAvatar(user);
+      expect(user.userProfile.avatar).toBeNull();
+      expect(result).toBeUndefined();
+    });
+
+    it('should throw an error when delete avatar failed', async () => {
+      const user = mockUser;
+      user.userProfile = mockUserProfile;
+
+      (userProfileRepository.save as jest.Mock).mockReturnValue(
+        Promise.reject(new Error('someError')),
+      );
+
+      await expect(service.deleteAvatar(user)).rejects.toThrowError();
     });
   });
 });

@@ -11,9 +11,11 @@ export class MinioProviderService {
     private minio: MinioService,
   ) {}
 
-  async upload(file: Express.Multer.File): Promise<any> {
-    const bucket = this.minioConfigService.bucket;
+  private get bucket(): string {
+    return this.minioConfigService.bucket;
+  }
 
+  async upload(file: Express.Multer.File): Promise<any> {
     const randomString = randomstring.generate(30);
     const fileExtension = file.mimetype.split('/')[1];
 
@@ -21,15 +23,21 @@ export class MinioProviderService {
     const fileBuffer = file.buffer;
 
     try {
-      await this.minio.client.putObject(bucket, fileName, fileBuffer);
+      await this.minio.client.putObject(this.bucket, fileName, fileBuffer);
 
       return {
         path: fileName,
       };
     } catch (error) {
-      throw new InternalServerErrorException(
-        lang.__('common.image.file.upload.error'),
-      );
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async delete(file: string): Promise<any> {
+    try {
+      await this.minio.client.removeObject(this.bucket, file);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

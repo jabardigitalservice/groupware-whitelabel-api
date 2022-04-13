@@ -50,6 +50,7 @@ const mockUser: User = {
   updatedAt: null,
   deletedAt: null,
   attendances: [],
+  logbooks: [],
   daysoff: [],
   isActive: false,
   userProfile: null,
