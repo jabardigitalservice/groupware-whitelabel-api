@@ -17,8 +17,8 @@ export interface ResponseIsCheckedIn {
   date?: Date;
   isDaysOff?: boolean;
   permitsType?: PermitsType;
-  startDate?: String;
-  endDate?: String;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ResponseIsCheckedOut {
