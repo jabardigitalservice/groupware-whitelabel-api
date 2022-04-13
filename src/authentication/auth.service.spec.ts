@@ -34,7 +34,7 @@ const mockJwtModule = {
 };
 
 describe('AuthService', () => {
-  let mailProviderService: MailService;
+  // let mailProviderService: MailService;
   let authService: AuthService;
   let jwtService: any;
 
@@ -64,7 +64,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    mailProviderService = await module.get(MailService);
+    // mailProviderService = await module.get(MailService);
     authService = await module.get(AuthService);
     jwtService = await module.get(JwtService);
   });

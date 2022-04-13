@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MinioService } from 'nestjs-minio-client';
 import * as randomstring from 'randomstring';
-import lang from '../../../common/language/configuration';
 import { MinioConfigService } from '../../../config/storage/minio-client/config.service';
 
 @Injectable()
