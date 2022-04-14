@@ -12,14 +12,22 @@ export default class CreateUserSocialAccounts implements Seeder {
       email: process.env.DEFAULT_ADMIN_EMAIL,
     });
 
-    await userSocialAccountRepository.save({
-      providerIdentifier: process.env.DEFAULT_ADMIN_EMAIL,
-      providerName: 'google',
-      user: defaultAdmin,
+    const isUserSocialAccountExist = await userSocialAccountRepository.findOne({
+      where: { userId: defaultAdmin.id, providerName: 'google' },
     });
 
+    if (!isUserSocialAccountExist) {
+      await userSocialAccountRepository.save({
+        providerIdentifier: process.env.DEFAULT_ADMIN_EMAIL,
+        providerName: 'google',
+        user: defaultAdmin,
+      });
+    }
+
     const providerName = ['google', 'keyclock'];
-    const users = await createQueryBuilder().from(User, 'users').execute();
+    const users = await userRepository.find({
+      relations: ['userSocialAccounts'],
+    });
 
     for (const user of users) {
       if (user.email == process.env.DEFAULT_ADMIN_EMAIL) {
@@ -27,6 +35,12 @@ export default class CreateUserSocialAccounts implements Seeder {
       }
 
       for (let i = 0; i < Math.floor(Math.random() * 2) + 1; i++) {
+        if (
+          user.userSocialAccounts.find((x) => x.providerName == providerName[i])
+        ) {
+          continue;
+        }
+
         await factory(UserSocialAccount)().create({
           providerIdentifier: user.email,
           providerName: providerName[i],

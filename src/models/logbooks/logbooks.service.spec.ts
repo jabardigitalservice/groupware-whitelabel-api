@@ -9,7 +9,6 @@ import { MinioConfigService } from '../../config/storage/minio-client/config.ser
 import { MinioProviderService } from '../../providers/storage/minio/minio.service';
 import { MinioService } from 'nestjs-minio-client';
 import { GetLogbooksFilterDto } from './dto/get-logbook-filter.dto';
-import moment from 'moment';
 
 const mockLogbooksRepository = () => ({
   createLogbook: jest.fn(),

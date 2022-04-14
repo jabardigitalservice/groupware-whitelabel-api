@@ -14,6 +14,13 @@ export class UserSocialAccount {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
+  @Column({
+    type: 'uuid',
+    nullable: false,
+    name: 'user_id',
+  })
+  public userId!: string;
+
   @ManyToOne(() => User, (user) => user.userSocialAccounts)
   @JoinColumn({ name: 'user_id' })
   public user!: User;
