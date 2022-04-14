@@ -6,7 +6,7 @@ const configService: ConfigService = new ConfigService();
 
 Sentry.init({
   dsn: configService.get('SENTRY_DSN'),
-  environment: configService.get('NODE_ENV'),
+  environment: configService.get('APP_ENV'),
   integrations: [
     new Sentry.Integrations.Http({ tracing: true }),
     new Tracing.Integrations.Postgres(),

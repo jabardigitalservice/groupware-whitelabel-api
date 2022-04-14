@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MinioProviderService } from '../../providers/storage/minio/minio.service';
 import { User } from '../users/entities/user.entity';
 import { CreateLogbookDto } from './dto/create-logbook.dto';
+import { GetLogbooksFilterDto } from './dto/get-logbook-filter.dto';
 import { LogbooksRepository } from './logbooks.repository';
 
 @Injectable()
@@ -48,6 +49,22 @@ export class LogbooksService {
 
         return await this.logbooksRepository.createLogbook(logbook);
       }
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async getLogbookByUserId(
+    user: User,
+    getLogbooksFilterDto: GetLogbooksFilterDto,
+  ): Promise<any> {
+    try {
+      const logbooks = await this.logbooksRepository.getLogbookByUserId(
+        user,
+        getLogbooksFilterDto,
+      );
+
+      return logbooks;
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }

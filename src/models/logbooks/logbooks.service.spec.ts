@@ -8,9 +8,11 @@ import { Readable } from 'stream';
 import { MinioConfigService } from '../../config/storage/minio-client/config.service';
 import { MinioProviderService } from '../../providers/storage/minio/minio.service';
 import { MinioService } from 'nestjs-minio-client';
+import { GetLogbooksFilterDto } from './dto/get-logbook-filter.dto';
 
 const mockLogbooksRepository = () => ({
   createLogbook: jest.fn(),
+  getLogbookByUserId: jest.fn(),
 });
 
 const mockMinioProviderService = () => ({
@@ -67,6 +69,39 @@ const mockImage: Express.Multer.File = {
   size: 0,
   stream: new Readable(),
 };
+
+const mockLogbooks = [
+  {
+    logbook_id: 'ae0185b0-8314-4c7a-9083-94ed0c66435a',
+    logbook_project_id: '027fd55c-f14e-4d11-abbb-4fa784f964b5',
+    logbook_main_duty_id: '017b9138-223d-4ddd-8162-95cefa1da151',
+    logbook_user_id: 'a843d4ed-a97c-44c8-8831-24b4eb769139',
+    logbook_name_task: 'Test',
+    logbook_date_task: '2022-03-31T18:00:00.000Z',
+    logbook_evidence_task_path: '8WWTW1lsLHFRr2BLhbYX5egWuvp1mY.png',
+    logbook_link_attachment: 'https://google.com',
+    logbook_workplace: 'Home',
+    logbook_organizer: 'JDS',
+    logbook_created_at: '2022-04-12T23:07:05.620Z',
+    logbook_updated_at: '2022-04-12T23:07:05.620Z',
+    logbook_deleted_at: null,
+  },
+  {
+    logbook_id: '09d99213-902c-4b9f-a61f-f3c9f5de248e',
+    logbook_project_id: '027fd55c-f14e-4d11-abbb-4fa784f964b5',
+    logbook_main_duty_id: '017b9138-223d-4ddd-8162-95cefa1da151',
+    logbook_user_id: 'a843d4ed-a97c-44c8-8831-24b4eb769139',
+    logbook_name_task: 'Test',
+    logbook_date_task: '2022-03-31T18:00:00.000Z',
+    logbook_evidence_task_path: 'poub9iTwgyqDTJ3bomlTKiS6VT1wuU.png',
+    logbook_link_attachment: 'https://google.com',
+    logbook_workplace: 'Home',
+    logbook_organizer: 'JDS',
+    logbook_created_at: '2022-04-13T20:47:44.132Z',
+    logbook_updated_at: '2022-04-13T20:47:44.132Z',
+    logbook_deleted_at: null,
+  },
+];
 
 describe('LogbooksService', () => {
   let minioProviderService: MinioProviderService;
@@ -142,6 +177,20 @@ describe('LogbooksService', () => {
 
       expect(logbook).toHaveProperty('user');
       expect(logbook.user).toHaveProperty('id');
+    });
+  });
+
+  describe('getLogbookByUserId', () => {
+    it('should return a list of logbooks', async () => {
+      logbooksRepository.getLogbookByUserId.mockResolvedValue(mockLogbooks);
+
+      let getLogbooksFilterDto: GetLogbooksFilterDto;
+
+      const result = await logbooksService.getLogbookByUserId(
+        mockUser,
+        getLogbooksFilterDto,
+      );
+      expect(result).toEqual(mockLogbooks);
     });
   });
 });
