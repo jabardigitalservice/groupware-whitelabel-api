@@ -4,6 +4,8 @@ import { Logbook } from './entities/logbooks.entity';
 import { GetLogbooksFilterDto } from './dto/get-logbook-filter.dto';
 import { User } from '@sentry/types';
 import * as moment from 'moment';
+import { Projects } from '../projects/entities/projects.entity';
+import { MainDuty } from '../main-duties/entities/main-duties.entity';
 
 @EntityRepository(Logbook)
 export class LogbooksRepository extends Repository<Logbook> {
@@ -34,6 +36,25 @@ export class LogbooksRepository extends Repository<Logbook> {
       const userId = user.id;
 
       const queryLogbooks = this.createQueryBuilder('logbook');
+      queryLogbooks.select([
+        'logbook.id AS id',
+        'logbook.dateTask AS dateTask',
+        'logbook.nameTask AS nameTask',
+        'logbook.evidenceTaskPath AS evidenceTask',
+        'logbook.linkAttachment AS linkAttachment',
+        'project.name AS projectName',
+        'mainDuty.name AS mainDutyName',
+      ]);
+      queryLogbooks.leftJoin(
+        Projects,
+        'project',
+        'project.id = logbook.projectId',
+      );
+      queryLogbooks.leftJoin(
+        MainDuty,
+        'mainDuty',
+        'mainDuty.id = logbook.mainDutyId',
+      );
       queryLogbooks.where('logbook.userId = :userId', { userId });
       queryLogbooks.andWhere('logbook.deletedAt IS NULL');
       queryLogbooks.andWhere(
