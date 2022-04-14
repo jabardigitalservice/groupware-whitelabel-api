@@ -47,5 +47,8 @@
 	"daysoff.is.exist": "Sakit/Izin/Cuti/DayOff sudah ada.",
 	"daysoff.create.success": "Sakit/Izin/Cuti/DayOff berhasil ditambahkan.",
 
-	"logbooks.create.success": "Berhasil menyimpan laporan!"
+	"logbooks.create.success": "Berhasil menyimpan laporan!",
+	"logbooks.getLogbookByUserId.success": "Berhasil mendapatkan list laporan!",
+	"logbooks.startDate.error": "Tanggal awal tidak valid.",
+	"logbooks.endDate.error": "Tanggal akhir tidak valid."
 }

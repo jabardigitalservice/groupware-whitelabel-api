@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
+  Query,
   Res,
   UploadedFile,
   UseGuards,
@@ -17,6 +19,7 @@ import { CreateLogbookDto } from './dto/create-logbook.dto';
 import { LogbooksService } from './logbooks.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageFileFilter } from '../../common/helpers/image-file-filter.helper';
+import { GetLogbooksFilterDto } from './dto/get-logbook-filter.dto';
 
 @Controller('logbooks')
 export class LogbooksController {
@@ -55,6 +58,26 @@ export class LogbooksController {
     return response.status(HttpStatus.CREATED).send({
       statusCode: HttpStatus.CREATED,
       message: lang.__('logbooks.create.success'),
+      data,
+    });
+  }
+
+  @Version('1')
+  @UseGuards(AuthGuard())
+  @Get('/mine')
+  async getLogbookByUserId(
+    @GetUserId() user: User,
+    @Query() getLogbooksFilterDto: GetLogbooksFilterDto,
+    @Res() response,
+  ): Promise<any> {
+    const data = await this.logbooksService.getLogbookByUserId(
+      user,
+      getLogbooksFilterDto,
+    );
+
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: lang.__('logbooks.getLogbookByUserId.success'),
       data,
     });
   }
