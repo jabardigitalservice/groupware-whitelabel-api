@@ -34,7 +34,6 @@ const mockJwtModule = {
 };
 
 describe('AuthService', () => {
-  // let mailProviderService: MailService;
   let authService: AuthService;
   let jwtService: any;
 
@@ -50,12 +49,6 @@ describe('AuthService', () => {
           provide: MailService,
           useFactory: mockMailService,
         },
-        // {
-        //   provide: MinioService,
-        //   useValue: {
-        //     putObject: jest.fn(),
-        //   },
-        // },
         { provide: JwtService, useValue: mockJwtService },
         { provide: JwtModule, useValue: mockJwtModule },
         { provide: AuthRepository, useFactory: mockAuthRepository },
@@ -64,7 +57,6 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    // mailProviderService = await module.get(MailService);
     authService = await module.get(AuthService);
     jwtService = await module.get(JwtService);
   });
