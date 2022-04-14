@@ -6,18 +6,25 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as moment from 'moment';
+import { MinioProviderService } from '../../providers/storage/minio/minio.service';
 import { GetUserInterface } from '../../common/interfaces/get-user.interface';
 import lang from '../../common/language/configuration';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { GetUsersFilterDto } from './dto/get-users-filter.dto';
 import { User } from './entities/user.entity';
+import { ResponseUploadAvatar } from './interfaces/upload-avatar.interface';
 import { UserRepository } from './repositories/user.repository';
+import { MinioConfigService } from '../../config/storage/minio-client/config.service';
+import { UserProfileRepository } from '../user-profiles/user-profile.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
+    private userProfileRepository: UserProfileRepository,
+    private minioConfigService: MinioConfigService,
+    private minioProviderService: MinioProviderService,
   ) {}
 
   getUsers(getUsersFilterDto: GetUsersFilterDto): Promise<User[]> {
@@ -56,6 +63,48 @@ export class UsersService {
       throw new InternalServerErrorException(
         lang.__('common.error.internalServerError'),
       );
+    }
+  }
+
+  async uploadAvatar(
+    user: User,
+    avatar: Express.Multer.File,
+  ): Promise<ResponseUploadAvatar> {
+    const existingAvatar = user.userProfile.avatar;
+
+    try {
+      if (existingAvatar) {
+        await this.minioProviderService.delete(existingAvatar);
+      }
+
+      const uploadedAvatar = await this.minioProviderService.upload(avatar);
+
+      user.userProfile.avatar = uploadedAvatar.path;
+      await this.userProfileRepository.save(user.userProfile);
+
+      return {
+        avatar_url: this.minioConfigService.url,
+        avatar_path: uploadedAvatar.path,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async deleteAvatar(user: User): Promise<any> {
+    const existingAvatar = user.userProfile.avatar;
+
+    try {
+      if (existingAvatar) {
+        await this.minioProviderService.delete(existingAvatar);
+      }
+
+      user.userProfile.avatar = null;
+      await this.userProfileRepository.save(user.userProfile);
+
+      return;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

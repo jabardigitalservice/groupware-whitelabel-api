@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/authentication/auth.module';
+import { AuthModule } from '../../authentication/auth.module';
 import { MinioProviderModule } from '../../providers/storage/minio/minio.module';
 import { LogbooksController } from './logbooks.controller';
 import { LogbooksRepository } from './logbooks.repository';

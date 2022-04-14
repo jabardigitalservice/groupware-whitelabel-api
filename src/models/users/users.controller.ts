@@ -7,10 +7,14 @@ import {
   Patch,
   Query,
   Res,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   Version,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageFileFilter } from '../../common/helpers/image-file-filter.helper';
 import { GetUser } from '../../common/decorators/get-user.decorator';
 import lang from '../../common/language/configuration';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -57,6 +61,51 @@ export class UsersController {
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
       message: lang.__('users.changePassword.success'),
+      data,
+    });
+  }
+
+  @Version('1')
+  @Patch('/upload-avatar')
+  @UseGuards(AuthGuard())
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      fileFilter: ImageFileFilter,
+      limits: {
+        fileSize: 1024 * 1024 * 1, // 1MB
+      },
+    }),
+  )
+  async uploadAvatar(
+    @GetUser() user: User,
+    @UploadedFile() avatar: Express.Multer.File,
+    @Res() response,
+  ): Promise<any> {
+    if (!avatar) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: lang.__('common.image.file.invalid'),
+      });
+    }
+
+    const data = await this.usersService.uploadAvatar(user, avatar);
+
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: lang.__('users.upload.avatar.success'),
+      data,
+    });
+  }
+
+  @Version('1')
+  @Patch('/delete-avatar')
+  @UseGuards(AuthGuard())
+  async deleteAvatar(@GetUser() user: User, @Res() response): Promise<any> {
+    const data = await this.usersService.deleteAvatar(user);
+
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: lang.__('users.delete.avatar.success'),
       data,
     });
   }

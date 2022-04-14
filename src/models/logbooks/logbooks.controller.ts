@@ -10,7 +10,7 @@ import {
   Version,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUserId } from 'src/common/decorators/get-user-id.decorator';
+import { GetUserId } from '../../common/decorators/get-user-id.decorator';
 import lang from '../../common/language/configuration';
 import { User } from '../users/entities/user.entity';
 import { CreateLogbookDto } from './dto/create-logbook.dto';

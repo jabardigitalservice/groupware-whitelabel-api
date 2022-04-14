@@ -26,6 +26,8 @@
 	"users.changePassword.success": "Kata sandi Anda berhasil di ubah. Mohon gunakan kata sandi Anda yang baru untuk log in.",
 	"users.changePassword.currentPassword.invalid": "Kata sandi yang Anda masukkkan salah.",
 	"users.changePassword.newPassword.invalid": "Kata sandi baru tidak boleh sama dengan kata sandi lama.",
+	"users.upload.avatar.success": "Avatar berhasil diperbarui.",
+	"users.delete.avatar.success": "Avatar berhasil dihapus.",
 
 	"common.error.internalServerError": "Terdapat kesalahan di server.",
 	"common.image.file.invalid": "File harus diisi dan hanya file gambar yang diizinkan.",
